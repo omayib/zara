@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  * @author     Your Name <email@example.com>
  */
-class Talktome_Activator {
+class Zara_Activator {
 
 	/**
 	 * Short Description. (use period)

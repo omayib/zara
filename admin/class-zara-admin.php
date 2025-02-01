@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Talktome
- * @subpackage Talktome/admin
+ * @package    Zara
+ * @subpackage Zara/admin
  */
 
 /**
@@ -16,20 +16,20 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Talktome
- * @subpackage Talktome/admin
+ * @package    Zara
+ * @subpackage Zara/admin
  * @author     Your Name <email@example.com>
  */
-class Talktome_Admin {
+class Zara_Admin {
 
 	/**
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $Talktome    The ID of this plugin.
+	 * @var      string    $Zara    The ID of this plugin.
 	 */
-	private $Talktome;
+	private $Zara;
 
 	/**
 	 * The version of this plugin.
@@ -44,12 +44,12 @@ class Talktome_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $Talktome       The name of this plugin.
+	 * @param      string    $Zara       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $Talktome, $version ) {
+	public function __construct( $Zara, $version ) {
 
-		$this->Talktome = $Talktome;
+		$this->Zara = $Zara;
 		$this->version = $version;
 
 	}
@@ -65,15 +65,15 @@ class Talktome_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Talktome_Loader as all of the hooks are defined
+		 * defined in Zara_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Talktome_Loader will then create the relationship
+		 * The Zara_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->Talktome, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->Zara, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -88,15 +88,15 @@ class Talktome_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Talktome_Loader as all of the hooks are defined
+		 * defined in Zara_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Talktome_Loader will then create the relationship
+		 * The Zara_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->Talktome, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->Zara, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 

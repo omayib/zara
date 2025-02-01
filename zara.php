@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Zara
- * Plugin URI:        http://example.com/talktome-uri/
+ * Plugin URI:        http://example.com/zara-uri/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            omayib
@@ -35,35 +35,35 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'TALKTOME_VERSION', '1.0.0' );
-define( 'TALKTOME_URL', trailingslashit( plugins_url('/', __FILE__) ) );
+define( 'ZARA_VERSION', '1.0.0' );
+define( 'ZARA_URL', trailingslashit( plugins_url('/', __FILE__) ) );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-talktome-activator.php
+ * This action is documented in includes/class-zara-activator.php
  */
-function activate_talktome() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-talktome-activator.php';
-	Talktome_Activator::activate();
+function activate_zara() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-zara-activator.php';
+	Zara_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-talktome-deactivator.php
+ * This action is documented in includes/class-zara-deactivator.php
  */
-function deactivate_talktome() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-talktome-deactivator.php';
-	Talktome_Deactivator::deactivate();
+function deactivate_zara() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-zara-deactivator.php';
+	Zara_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_talktome' );
-register_deactivation_hook( __FILE__, 'deactivate_talktome' );
+register_activation_hook( __FILE__, 'activate_zara' );
+register_deactivation_hook( __FILE__, 'deactivate_zara' );
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-talktome.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-zara.php';
 
 /**
  * Begins execution of the plugin.
@@ -74,10 +74,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-talktome.php';
  *
  * @since    1.0.0
  */
-function run_talktome() {
+function run_zara() {
 
-	$plugin = new Talktome();
+	$plugin = new Zara();
 	$plugin->run();
 
 }
-run_talktome();
+run_zara();

@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Talktome
- * @subpackage Talktome/public
+ * @package    Zara
+ * @subpackage Zara/public
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    Talktome
- * @subpackage Talktome/public
+ * @package    Zara
+ * @subpackage Zara/public
  * @author     Your Name <email@example.com>
  */
-class Talktome_Public {
+class Zara_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -59,7 +59,7 @@ class Talktome_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/zara-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -69,14 +69,14 @@ class Talktome_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/zara-public.js', array( 'jquery' ), $this->version, false );
 		
 		$data = [
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('talktome_ajax_nonce')
+			'nonce' => wp_create_nonce('zara_ajax_nonce')
 		  ];
 		
-		wp_localize_script($this->plugin_name, 'TalktomeData', $data);
+		wp_localize_script($this->plugin_name, 'ZaraData', $data);
 	}
 	 // Add floating chat widget to footer
 	 public function render_chat_widget() {
@@ -103,14 +103,14 @@ class Talktome_Public {
 	public function process_message() {
 		try {
 			// Verify nonce
-			check_ajax_referer('talktome_ajax_nonce', 'security');
+			check_ajax_referer('zara_ajax_nonce', 'security');
 	
 			// Sanitize input
 			$message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
 	
 			// Validate input
 			if (empty($message)) {
-				throw new Exception(__('Message cannot be empty', 'talktome-plugin'));
+				throw new Exception(__('Message cannot be empty', 'zara-plugin'));
 			}
 
 			// Get API credentials securely

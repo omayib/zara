@@ -44,11 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 			// AJAX request using WordPress pattern
 			jQuery.ajax({
-				url: TalktomeData.ajax_url,
+				url: ZaraData.ajax_url,
 				type: 'POST',
 				data: {
 					action: 'process_message',
-					security: TalktomeData.nonce,
+					security: ZaraData.nonce,
 					message: userMessage
 				}
 			})

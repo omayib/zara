@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  * @author     Your Name <email@example.com>
  */
-class Talktome_i18n {
+class Zara_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class Talktome_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'talktome',
+			'zara',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

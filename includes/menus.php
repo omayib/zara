@@ -1,110 +1,110 @@
 <?php
 //read https://tommcfarlin.com/multiple-sections-on-wordpress-options-pages/
-if (!defined('TALKTOME_URL')) {
-    define('TALKTOME_URL', plugin_dir_url(__FILE__));
+if (!defined('ZARA_URL')) {
+    define('ZARA_URL', plugin_dir_url(__FILE__));
 }
 
-add_action('admin_menu', 'talktome_admin_page');
-add_action('admin_init', 'talktome_init_settings');
-add_action('admin_init', 'talktome_handle_sync_buttons');
-add_action('admin_init', 'talktome_handle_test_question_buttons');
+add_action('admin_menu', 'zara_admin_page');
+add_action('admin_init', 'zara_init_settings');
+add_action('admin_init', 'zara_handle_sync_buttons');
+add_action('admin_init', 'zara_handle_test_question_buttons');
 
-function talktome_admin_page() {
+function zara_admin_page() {
     add_menu_page(
-        __('Talktome', 'talktome-plugin'),
-        __('Talktome', 'talktome-plugin'),
+        __('Zara', 'zara-plugin'),
+        __('Zara', 'zara-plugin'),
         'manage_options',
-        'talktome-menu',
-        'talktome_menu_callback',
-        TALKTOME_URL . 'admin/img/chat.png',
+        'zara-menu',
+        'zara_menu_callback',
+        ZARA_URL . 'admin/img/chat.png',
         10
     );
 }
 
-function talktome_menu_callback() {
+function zara_menu_callback() {
     ?>
     <div class="wrap">
-        <h1>Talktome Settings</h1>
+        <h1>Zara Settings</h1>
         <form method="post" action="options.php">
             <?php
-            settings_fields('talktome_settings_group');
-            do_settings_sections('talktome-settings-page');
+            settings_fields('zara_settings_group');
+            do_settings_sections('zara-settings-page');
             submit_button();
             ?>
         </form>
         <!-- Add a new form for the custom button -->
         <form method="post">
-            <?php wp_nonce_field('talktome_sync_action', 'talktome_nonce'); ?>
-            <input type="submit" name="talktome_sync" class="button button-secondary" value="Sync">
+            <?php wp_nonce_field('zara_sync_action', 'zara_nonce'); ?>
+            <input type="submit" name="zara_sync" class="button button-secondary" value="Sync">
         </form>
         <br>
         <form method="post">
-            <?php wp_nonce_field('talktome_test_action', 'talktome_nonce'); ?>
+            <?php wp_nonce_field('zara_test_action', 'zara_nonce'); ?>
             <input type="text" name="test_question"/>
-            <input type="submit" name="talktome_test" class="button button-secondary" value="Test">
+            <input type="submit" name="zara_test" class="button button-secondary" value="Test">
         </form>
     </div>
     <?php
 }
 
-function talktome_init_settings() {
+function zara_init_settings() {
     // Register settings with sanitization callbacks
     register_setting(
-        'talktome_settings_group',
+        'zara_settings_group',
         'openai_options',
-        ['sanitize_callback' => 'talktome_sanitize_options']
+        ['sanitize_callback' => 'zara_sanitize_options']
     );
     register_setting(
-        'talktome_settings_group',
+        'zara_settings_group',
         'pinecone_options',
-        ['sanitize_callback' => 'talktome_sanitize_options']
+        ['sanitize_callback' => 'zara_sanitize_options']
     );
 
     // OpenAPI Settings Section
     add_settings_section(
-        'talktome_setting_section_openapi',
+        'zara_setting_section_openapi',
         'OpenAPI Key Settings',
         'settings_section_openapi_callback',
-        'talktome-settings-page'
+        'zara-settings-page'
     );
 
     add_settings_field(
         'openai_key_field',
         'API Key',
         'render_openai_key_field',
-        'talktome-settings-page',
-        'talktome_setting_section_openapi'
+        'zara-settings-page',
+        'zara_setting_section_openapi'
     );
 
     // Pinecone Settings Section
     add_settings_section(
-        'talktome_setting_section_pinecone',
+        'zara_setting_section_pinecone',
         'Pinecone Key Settings',
         'settings_section_pinecone_callback',
-        'talktome-settings-page'
+        'zara-settings-page'
     );
 
     add_settings_field(
         'pinecone_key_field',
         'API Key',
         'render_pinecone_key_field',
-        'talktome-settings-page',
-        'talktome_setting_section_pinecone'
+        'zara-settings-page',
+        'zara_setting_section_pinecone'
     );
 
     add_settings_field(
         'pinecone_index_field',
         'Pinecone Index',
         'render_pinecone_index_field',
-        'talktome-settings-page',
-        'talktome_setting_section_pinecone'
+        'zara-settings-page',
+        'zara_setting_section_pinecone'
     );
 }
 
-function talktome_handle_test_question_buttons() {
-    if (isset($_POST['talktome_test'])) {
+function zara_handle_test_question_buttons() {
+    if (isset($_POST['zara_test'])) {
         // Verify nonce
-        if (!wp_verify_nonce($_POST['talktome_nonce'], 'talktome_test_action')) {
+        if (!wp_verify_nonce($_POST['zara_nonce'], 'zara_test_action')) {
             wp_die('Security check failed');
         }
 
@@ -116,15 +116,15 @@ function talktome_handle_test_question_buttons() {
         looking_for_answer($test_question);
     }
 }
-function talktome_handle_sync_buttons() {
-    if (isset($_POST['talktome_sync'])) {
+function zara_handle_sync_buttons() {
+    if (isset($_POST['zara_sync'])) {
         // Verify nonce
-        if (!wp_verify_nonce($_POST['talktome_nonce'], 'talktome_sync_action')) {
+        if (!wp_verify_nonce($_POST['zara_nonce'], 'zara_sync_action')) {
             wp_die('Security check failed');
         }
 
         // Log to error log
-        error_log('Hello from Talktome plugin!');
+        error_log('Hello from Zara plugin!');
 
         // Call external function
         if (function_exists('read_all_content')) {
@@ -134,7 +134,7 @@ function talktome_handle_sync_buttons() {
         }
         
         // Redirect back to settings page
-        // wp_redirect(admin_url('admin.php?page=talktome-menu'));
+        // wp_redirect(admin_url('admin.php?page=zara-menu'));
         // exit;
     }
 }
@@ -168,7 +168,7 @@ function render_pinecone_index_field() {
           class="regular-text">';
 }
 
-function talktome_sanitize_options($input) {
+function zara_sanitize_options($input) {
     // Sanitize input here (e.g., trim whitespace, strip tags)
     $sanitized = [];
     if (isset($input['openai_key'])) {

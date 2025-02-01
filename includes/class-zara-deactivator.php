@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Talktome
- * @subpackage Talktome/includes
+ * @package    Zara
+ * @subpackage Zara/includes
  * @author     Your Name <email@example.com>
  */
-class Talktome_Deactivator {
+class Zara_Deactivator {
 
 	/**
 	 * Short Description. (use period)
