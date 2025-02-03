@@ -113,12 +113,6 @@ class Zara_Public {
 				throw new Exception(__('Message cannot be empty', 'zara-plugin'));
 			}
 
-			// Get API credentials securely
-			$openai_options = get_option('openai_options');
-			$pinecone_options = get_option('pinecone_options');
-	
-			// Call your PHP functions here (e.g., OpenAI/Pinecone integration)
-			// $response = looking_for_answer($message);
 			$openai_engine = new OpenAiEngine();
 			$pinecone_engine = new PineconeEngine();
 			$prompt_constructor = new PromptConstructor();
@@ -132,7 +126,7 @@ class Zara_Public {
 				$url_sanitizer
 			);
 			$response = $answer_finder->find_answer($message);
-			// Return success response
+			
 			wp_send_json_success($response);
 	
 		} catch (Exception $e) {
