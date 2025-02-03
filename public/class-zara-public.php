@@ -118,8 +118,20 @@ class Zara_Public {
 			$pinecone_options = get_option('pinecone_options');
 	
 			// Call your PHP functions here (e.g., OpenAI/Pinecone integration)
-			$response = looking_for_answer($message);
-			
+			// $response = looking_for_answer($message);
+			$openai_engine = new OpenAiEngine();
+			$pinecone_engine = new PineconeEngine();
+			$prompt_constructor = new PromptConstructor();
+			$url_sanitizer = new UrlSanitizer();
+
+			$answer_finder = new AnswerFinder(
+				$openai_engine,
+				$pinecone_engine,
+				$openai_engine,
+				$prompt_constructor,
+				$url_sanitizer
+			);
+			$response = $answer_finder->find_answer($message);
 			// Return success response
 			wp_send_json_success($response);
 	

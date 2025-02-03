@@ -130,6 +130,14 @@ class Zara {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/preprocess.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/handle-question.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/interface/embedding-generator-interface.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/interface/response-generator-interface.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/interface/vector-query-interface.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/openai-engine.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/pinecone-engine.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/prompt-constructor.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/url-sanitizer.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/answer-finder.php';
 
 		$this->loader = new Zara_Loader();
 
