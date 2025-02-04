@@ -1,12 +1,22 @@
 <?php
-
+function external_custom_function($post_id){
+    error_log("external_custom_function ".$post_id);
+}
 function read_all_content(){
     $all_content = get_posts([
         'post_type' => ['post','page'],
         'post_status'=> 'publish',
         'posts_per_page'=>-1 
     ]);
-
+    /**
+     * report = [
+     *      'post_id'=>34,
+     *      'post_type'=>'post',
+     *      'source'=>'https://wwww.sample.com/pages',
+     *      'chunks_total'=>456,
+     *      'hashes'=>[]
+     * ]
+     */
     foreach ($all_content as $content){
         $htmlContent = apply_filters('the_content', $content->post_content);
         $urlContent = get_permalink($content->ID);

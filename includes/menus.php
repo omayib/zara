@@ -128,7 +128,7 @@ function zara_handle_sync_buttons() {
 
         // Call external function
         if (function_exists('read_all_content')) {
-            read_all_content(); // Call function from utilities.php
+            read_all_content();
         } else {
             error_log('read_all_content function not found!');
         }

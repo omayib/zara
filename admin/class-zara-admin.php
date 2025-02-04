@@ -61,18 +61,6 @@ class Zara_Admin {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Zara_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Zara_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->Zara, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -84,20 +72,105 @@ class Zara_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Zara_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Zara_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_script( $this->Zara, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+
+	public function register_manage_posts_and_pages(){
+		add_filter('manage_post_posts_columns', [$this,'misha_price_and_featured_columns'] );
+		add_action('manage_posts_custom_column', [$this,'misha_populate_both_columns'], 10, 2 );
+		add_action('wp_ajax_custom_row_action', [$this, 'handle_custom_row_action']);
+	}
+
+	function misha_price_and_featured_columns( $column_array ) {
+
+		$column_array[ 'indexed_zara' ] = 'Zara';
+	
+		return $column_array;
+	}
+	function misha_populate_both_columns( $column_name, $post_id ){
+		// echo "🗹";
+		echo "⚠";
+		if($column_name=='indexed_zara'){
+			?>
+            <div class="row-actions">
+                <button 
+                    onclick="performCustomAction(<?php echo esc_js($post_id); ?>)" 
+                    class="button button-small custom-action-btn"
+                    data-post-id="<?php echo esc_attr($post_id); ?>"
+                >
+                    Custom Action
+                </button>
+            </div>
+
+            <script>
+            function performCustomAction(postId) {
+                // Client-side validation or preparation
+                if (confirm('Do you want to perform this action?')) {
+                    // Use AJAX to call WordPress action
+                    jQuery.ajax({
+                        url: ajaxurl, // WordPress AJAX endpoint
+                        type: 'POST',
+                        data: {
+                            action: 'custom_row_action', // Must match wp_ajax_* hook
+                            post_id: postId,
+                            // Add any additional parameters
+                            security: '<?php echo wp_create_nonce('custom_row_action_nonce'); ?>'
+                        },
+                        success: function(response) {
+                            // Handle successful response
+                            if (response.success) {
+                                alert(response.data.message);
+                                // Optional: Refresh page or update UI
+                                location.reload();
+                            } else {
+                                alert('Action failed: ' + response.data);
+                            }
+                        },
+                        error: function() {
+                            alert('An error occurred');
+                        }
+                    });
+                }
+            }
+            </script>
+            <?php
+		}
+	}
+
+	public function handle_custom_row_action() {
+        // Security check
+        check_ajax_referer('custom_row_action_nonce', 'security');
+
+        // Capability check
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error('You do not have sufficient permissions');
+        }
+
+        // Get post ID from AJAX request
+        $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+
+        if ($post_id <= 0) {
+            wp_send_json_error('Invalid Post ID');
+        }
+
+        // Your custom logic here
+        try {
+            // Example: Call an external function or perform custom action
+            $result = external_custom_function($post_id);
+
+            // Send success response
+            wp_send_json_success([
+                'message' => 'Action completed successfully',
+                'result' => $result
+            ]);
+        } catch (Exception $e) {
+            // Send error response
+            wp_send_json_error($e->getMessage());
+        }
+
+        // Always exit after sending JSON
+        wp_die();
+    }
 
 }
