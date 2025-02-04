@@ -38,3 +38,14 @@ Ready to supercharge your WordPress site with the power of AI? Follow these simp
 ---
 
 Get ready to reimagine content navigation – with Zara, your website is about to get a whole lot smarter and a whole lot cooler!
+
+---
+# For Developer
+You can manage this projects directory separately instead `sites_name/app/public/wp-content/plugin` directory by using symbolic link. Here is the way for create symbolic link.
+```
+ln -s ~/Workspace/Zara/ Zara
+```
+
+Where `~/Workspace/Zara/` is directory outside wp. Meanwhile, `Zara` is directory inside `plugin`
+
+Use *Local* from https://localwp.com/ for managing localhost wordpress project.
