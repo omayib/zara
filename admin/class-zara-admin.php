@@ -77,8 +77,13 @@ class Zara_Admin {
 	}
 
 	public function register_manage_posts_and_pages(){
+
 		add_filter('manage_post_posts_columns', [$this,'misha_price_and_featured_columns'] );
 		add_action('manage_posts_custom_column', [$this,'misha_populate_both_columns'], 10, 2 );
+
+		add_filter('manage_page_posts_columns', [$this,'misha_price_and_featured_columns'] );
+		add_action('manage_page_posts_custom_column', [$this,'misha_populate_both_columns'], 10, 2 );
+        
 		add_action('wp_ajax_custom_row_action', [$this, 'handle_custom_row_action']);
 	}
 
