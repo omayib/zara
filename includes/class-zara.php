@@ -138,6 +138,7 @@ class Zara {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/prompt-constructor.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/url-sanitizer.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/answer-finder.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/indexing-contents.php';
 
 		$this->loader = new Zara_Loader();
 

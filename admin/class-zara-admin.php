@@ -99,7 +99,7 @@ class Zara_Admin {
                     class="button button-small custom-action-btn"
                     data-post-id="<?php echo esc_attr($post_id); ?>"
                 >
-                    Custom Action
+                    Sync
                 </button>
             </div>
 
@@ -156,8 +156,10 @@ class Zara_Admin {
 
         // Your custom logic here
         try {
-            // Example: Call an external function or perform custom action
-            $result = external_custom_function($post_id);
+            $openai_engine = new OpenAiEngine();
+			$pinecone_engine = new PineconeEngine();
+            $indexing = new IndexingContents($openai_engine, $pinecone_engine);
+            $result = $indexing->upserting_single_post($post_id);
 
             // Send success response
             wp_send_json_success([

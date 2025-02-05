@@ -1,6 +1,30 @@
 <?php
 function external_custom_function($post_id){
-    error_log("external_custom_function ".$post_id);
+
+    $post = get_post($post_id);
+    $urlContent = get_permalink($post->ID);
+    $htmlContent = apply_filters('the_content', $post->post_content);
+    error_log("post_content ".$htmlContent);
+
+
+    // Processing pipeline
+    $cleanedText = cleanHtml($htmlContent);
+    $sentences = splitWords($cleanedText);
+    $chunks = createContextChunks($sentences, 10, 5);
+    // error_log( "Chunks ".count($chunks). ":\n" . print_r($chunks,true));
+    foreach($chunks as $chunk){
+        $vectors = generate_embeddings($chunk);
+        $prepare = [
+            "id"=> hash('sha1',$chunk),
+            "vector"=>$vectors,
+            "meta"=>[
+                "source"=>$urlContent,
+                "text"=>$chunk
+            ]
+        ];
+        error_log(json_encode($prepare));
+        store_vector_in_pinecone($prepare["id"],$prepare["vector"],$prepare["meta"]);
+    }
 }
 function read_all_content(){
     $all_content = get_posts([
