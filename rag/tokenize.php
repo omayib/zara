@@ -106,3 +106,36 @@ function createContextChunks($words, $chunkSize, $chunkOverlap) {
     
     return $chunks;
 }
+
+function get_overlapping_word_chunks( $text, $chunkSize = 10, $overlap = 5 ) {
+    // Split the text into an array of words
+    // Using PREG_SPLIT_NO_EMPTY removes empty entries
+    // (i.e., in case of multiple spaces, etc.)
+    $words = preg_split( '/\s+/', trim( $text ), -1, PREG_SPLIT_NO_EMPTY );
+    
+    // If we have fewer words than one chunk, just return the entire text as a single chunk
+    if ( count( $words ) <= $chunkSize ) {
+        return [ implode( ' ', $words ) ];
+    }
+    
+    // How many words to move ahead for each subsequent chunk
+    $step   = $chunkSize - $overlap;  // e.g. 10 - 5 = 5
+    $chunks = [];
+    
+    // Use a for-loop, incrementing by $step each time
+    for ( $i = 0; $i < count( $words ); $i += $step ) {
+        // Extract a slice of $chunkSize words starting at index $i
+        $chunk = array_slice( $words, $i, $chunkSize );
+        
+        // If the chunk has fewer than $chunkSize words, decide whether to include partial
+        // chunk or break out. Here we break to ensure each chunk is exactly 10 words.
+        if ( count( $chunk ) < $chunkSize ) {
+            break;
+        }
+        
+        // Join the words back into a string
+        $chunks[] = implode( ' ', $chunk );
+    }
+    
+    return $chunks;
+}
