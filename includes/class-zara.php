@@ -114,6 +114,8 @@ class Zara {
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/database-manager.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-zara-admin.php';
 
 		/**
@@ -169,7 +171,7 @@ class Zara {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
+		zara_init_database();
 		$plugin_admin = new Zara_Admin( $this->get_Zara(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
