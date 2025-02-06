@@ -78,22 +78,22 @@ class Zara_Admin {
 
 	public function register_manage_posts_and_pages(){
 
-		add_filter('manage_post_posts_columns', [$this,'misha_price_and_featured_columns'] );
-		add_action('manage_posts_custom_column', [$this,'misha_populate_both_columns'], 10, 2 );
+		add_filter('manage_post_posts_columns', [$this,'zara_sync_status_columns'] );
+		add_action('manage_posts_custom_column', [$this,'zara_sync_status_row'], 10, 2 );
 
-		add_filter('manage_page_posts_columns', [$this,'misha_price_and_featured_columns'] );
-		add_action('manage_page_posts_custom_column', [$this,'misha_populate_both_columns'], 10, 2 );
+		add_filter('manage_page_posts_columns', [$this,'zara_sync_status_columns'] );
+		add_action('manage_page_posts_custom_column', [$this,'zara_sync_status_row'], 10, 2 );
         
-		add_action('wp_ajax_custom_row_action', [$this, 'handle_custom_row_action']);
+		add_action('wp_ajax_custom_row_action', [$this, 'handle_sync_row_action']);
 	}
 
-	function misha_price_and_featured_columns( $column_array ) {
+	function zara_sync_status_columns( $column_array ) {
 
 		$column_array[ 'indexed_zara' ] = 'Zara';
 	
 		return $column_array;
 	}
-	function misha_populate_both_columns( $column_name, $post_id ){
+	function zara_sync_status_row( $column_name, $post_id ){
 		// echo "🗹";
 		echo "⚠";
 		if($column_name=='indexed_zara'){
@@ -143,7 +143,7 @@ class Zara_Admin {
 		}
 	}
 
-	public function handle_custom_row_action() {
+	public function handle_sync_row_action() {
         // Security check
         check_ajax_referer('custom_row_action_nonce', 'security');
 
