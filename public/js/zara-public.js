@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (messages.children.length === 0) { // Check if no messages exist yet
 			const welcomeMessageDiv = document.createElement('div');
 			welcomeMessageDiv.classList.add('bot-message');
-			welcomeMessageDiv.textContent = "Hi, saya Kirana akan memandu Kamu menelusuri website ini. Sampaikan pertanyaanmu.";
+			welcomeMessageDiv.textContent = ZaraData.welcome_message;
 			messages.appendChild(welcomeMessageDiv);
 			messages.scrollTop = messages.scrollHeight; // Scroll to the latest message
 		}

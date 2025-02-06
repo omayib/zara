@@ -69,14 +69,23 @@ class Zara_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
+	
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/zara-public.js', array( 'jquery' ), $this->version, false );
 		
+
 		$data = [
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('zara_ajax_nonce')
+			'nonce' => wp_create_nonce('zara_ajax_nonce'),
+			'welcome_message'=> $this->get_welcome_message()
 		  ];
 		
 		wp_localize_script($this->plugin_name, 'ZaraData', $data);
+	}
+
+	function get_welcome_message(){
+		$welcome_message_options = get_option( 'zara_message_options', array() );
+		$welcome_message     = isset( $welcome_message_options['zara_welcome_message'] ) ? $welcome_message_options['zara_welcome_message'] : '';
+		return $welcome_message;
 	}
 	 // Add floating chat widget to footer
 	 public function render_chat_widget() {
