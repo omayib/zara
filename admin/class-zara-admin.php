@@ -165,11 +165,11 @@ class Zara_Admin {
 			$pinecone_engine = new PineconeEngine();
             $indexing = new IndexingContents($openai_engine, $pinecone_engine);
             $result = $indexing->upserting_single_post($post_id);
-
+            zara_insert_or_update($result['post_id'],$result['chunk_total']);
             // Send success response
             wp_send_json_success([
                 'message' => 'Action completed successfully',
-                'result' => $result
+                'result' => 'Done'
             ]);
         } catch (Exception $e) {
             // Send error response

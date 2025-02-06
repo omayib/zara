@@ -30,5 +30,6 @@ class IndexingContents{
             $this->vectorQuery->upsert($prepare["id"],$prepare["vector"],$prepare["meta"]);
         }
         wp_reset_postdata();
+        return ['post_id'=>$post_id,'chunk_total'=>count($chunks)];
     }
 }
