@@ -48,4 +48,7 @@ ln -s ~/Workspace/Zara/ Zara
 
 Where `~/Workspace/Zara/` is directory outside wp. Meanwhile, `Zara` is directory inside `plugin`
 
-Use *Local* from https://localwp.com/ for managing localhost wordpress project.
+Use *Local* from https://localwp.com/ for managing localhost wordpress project. Monitor the error log by using
+```
+tail -f ~/Local\ Sites/lookingforsite/logs/php/error.log
+```
