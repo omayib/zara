@@ -2,7 +2,11 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
- .custom-action-btn .spinner {
+.custom-action-btn .spinner {
     margin-left: 5px;
     vertical-align: middle;
+}
+.sync-spinner {
+    float: none;
+    display: inline-block;
 }

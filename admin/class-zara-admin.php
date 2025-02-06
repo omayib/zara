@@ -72,8 +72,11 @@ class Zara_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->Zara, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( $this->Zara, plugin_dir_url( __FILE__ ) . 'js/zara-admin.js', array( 'jquery' ), $this->version, false );
+        wp_localize_script( $this->Zara, 'customSync', array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'custom_row_action_nonce' ),
+        ));
 	}
 
 	public function register_manage_posts_and_pages(){
@@ -113,56 +116,9 @@ class Zara_Admin {
                     data-post-id="<?php echo esc_attr($post_id); ?>"
                 >
                     <span class="button-text">Sync</span>
-                    <span class="spinner" style="float: none; display: inline-block;"></span>
+                    <span class="spinner sync-spinner"></span>
                 </button>
             </div>
-
-            <script>
-            function performCustomAction(postId) {
-                // Client-side validation or preparation
-                if (confirm('Do you want to perform this action?')) {
-                    // Get the button by its ID
-                    var $btn = jQuery('#sync-button-' + postId);
-                    
-                    // Disable the button to prevent multiple clicks
-                    $btn.attr('disabled', 'disabled');
-                    
-                    // Show the spinner and optionally hide the button text
-                    $btn.find('.spinner').addClass('is-active');
-                    $btn.find('.button-text').hide();
-                    // Use AJAX to call WordPress action
-                    jQuery.ajax({
-                        url: ajaxurl, // WordPress AJAX endpoint
-                        type: 'POST',
-                        data: {
-                            action: 'custom_row_action', // Must match wp_ajax_* hook
-                            post_id: postId,
-                            // Add any additional parameters
-                            security: '<?php echo wp_create_nonce('custom_row_action_nonce'); ?>'
-                        },
-                        success: function(response) {
-                            // Handle successful response
-                            if (response.success) {
-                                alert(response.data.message);
-                                // Optional: Refresh page or update UI
-                                location.reload();
-                            } else {
-                                alert('Action failed: ' + response.data);
-                            }
-                        },
-                        error: function() {
-                            alert('An error occurred');
-                        },
-                        complete: function() {
-                            // Re-enable the button and hide the spinner, show the button text again
-                            $btn.removeAttr('disabled');
-                            $btn.find('.spinner').removeClass('is-active');
-                            $btn.find('.button-text').show();
-                        }
-                    });
-                }
-            }
-            </script>
             <?php
 		}
 	}

@@ -1,32 +1,42 @@
-(function( $ ) {
-	'use strict';
+// File: js/admin-sync.js
+(function($) {
+    // Define the function in a safe namespace or expose it to the global scope as needed.
+    function performCustomAction(postId) {
+        if (confirm('Do you want to perform this action?')) {
+            var $btn = $('#sync-button-' + postId);
+            $btn.attr('disabled', 'disabled');
+            $btn.find('.spinner').addClass('is-active');
+            $btn.find('.button-text').hide();
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+            $.ajax({
+                url: customSync.ajaxurl, // Provided via wp_localize_script
+                type: 'POST',
+                data: {
+                    action: 'custom_row_action',
+                    post_id: postId,
+                    security: customSync.nonce // Provided via wp_localize_script
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.data.message);
+                        // Optionally refresh the page or update the UI accordingly
+                        location.reload();
+                    } else {
+                        alert('Action failed: ' + response.data);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred');
+                },
+                complete: function() {
+                    $btn.removeAttr('disabled');
+                    $btn.find('.spinner').removeClass('is-active');
+                    $btn.find('.button-text').show();
+                }
+            });
+        }
+    }
 
-})( jQuery );
+    // Expose the function globally if needed
+    window.performCustomAction = performCustomAction;
+})(jQuery);
