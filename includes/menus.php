@@ -6,8 +6,6 @@ if (!defined('ZARA_URL')) {
 
 add_action('admin_menu', 'zara_admin_page');
 add_action('admin_init', 'zara_init_settings');
-add_action('admin_init', 'zara_handle_sync_buttons');
-add_action('admin_init', 'zara_handle_test_question_buttons');
 
 function zara_admin_page() {
     add_menu_page(
@@ -36,12 +34,6 @@ function zara_menu_callback() {
         <form method="post">
             <?php wp_nonce_field('zara_sync_action', 'zara_nonce'); ?>
             <input type="submit" name="zara_sync" class="button button-secondary" value="Sync">
-        </form>
-        <br>
-        <form method="post">
-            <?php wp_nonce_field('zara_test_action', 'zara_nonce'); ?>
-            <input type="text" name="test_question"/>
-            <input type="submit" name="zara_test" class="button button-secondary" value="Test">
         </form>
     </div>
     <?php
@@ -120,44 +112,6 @@ function zara_init_settings() {
         'zara-settings-page',
         'zara_setting_section_message'
     );
-}
-
-function zara_handle_test_question_buttons() {
-    if (isset($_POST['zara_test'])) {
-        // Verify nonce
-        if (!wp_verify_nonce($_POST['zara_nonce'], 'zara_test_action')) {
-            wp_die('Security check failed');
-        }
-
-        // Get the value of the test_question field
-        $test_question = isset($_POST['test_question']) ? sanitize_text_field($_POST['test_question']) : '';
-
-        // Log the test question value
-        // error_log('Test Question: ' . $test_question);
-        looking_for_answer($test_question);
-    }
-}
-function zara_handle_sync_buttons() {
-    if (isset($_POST['zara_sync'])) {
-        // Verify nonce
-        if (!wp_verify_nonce($_POST['zara_nonce'], 'zara_sync_action')) {
-            wp_die('Security check failed');
-        }
-
-        // Log to error log
-        error_log('Hello from Zara plugin!');
-
-        // Call external function
-        if (function_exists('read_all_content')) {
-            read_all_content();
-        } else {
-            error_log('read_all_content function not found!');
-        }
-        
-        // Redirect back to settings page
-        // wp_redirect(admin_url('admin.php?page=zara-menu'));
-        // exit;
-    }
 }
 
 function settings_section_openai_callback() {
