@@ -61,7 +61,7 @@ class Zara_Admin {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->Zara, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->Zara, plugin_dir_url( __FILE__ ) . 'css/zara-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -104,11 +104,13 @@ class Zara_Admin {
 			?>
             <div class="row-actions">
                 <button 
+                    id="sync-button-<?php echo esc_attr($post_id); ?>" 
                     onclick="performCustomAction(<?php echo esc_js($post_id); ?>)" 
                     class="button button-small custom-action-btn"
                     data-post-id="<?php echo esc_attr($post_id); ?>"
                 >
-                    Sync
+                    <span class="button-text">Sync</span>
+                    <span class="spinner" style="float: none; display: inline-block;"></span>
                 </button>
             </div>
 
@@ -116,6 +118,15 @@ class Zara_Admin {
             function performCustomAction(postId) {
                 // Client-side validation or preparation
                 if (confirm('Do you want to perform this action?')) {
+                    // Get the button by its ID
+                    var $btn = jQuery('#sync-button-' + postId);
+                    
+                    // Disable the button to prevent multiple clicks
+                    $btn.attr('disabled', 'disabled');
+                    
+                    // Show the spinner and optionally hide the button text
+                    $btn.find('.spinner').addClass('is-active');
+                    $btn.find('.button-text').hide();
                     // Use AJAX to call WordPress action
                     jQuery.ajax({
                         url: ajaxurl, // WordPress AJAX endpoint
@@ -138,6 +149,12 @@ class Zara_Admin {
                         },
                         error: function() {
                             alert('An error occurred');
+                        },
+                        complete: function() {
+                            // Re-enable the button and hide the spinner, show the button text again
+                            $btn.removeAttr('disabled');
+                            $btn.find('.spinner').removeClass('is-active');
+                            $btn.find('.button-text').show();
                         }
                     });
                 }
