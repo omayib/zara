@@ -71,3 +71,20 @@ function zara_delete_by_post($post_id){
         array( '%d' )
     );
 }
+
+/**
+ * Retrieve data from the zara_sync_data table for a specific post.
+ *
+ * @param int $post_id The post ID to look up.
+ * @return object|null Returns the row as an object if found, or null if not found.
+ */
+function zara_get_data_by_post( $post_id ) {
+    global $wpdb;
+    $table_name = zara_get_table_name();
+
+    // Prepare the query to avoid SQL injection
+    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE post_id = %d LIMIT 1", $post_id );
+    $result = $wpdb->get_row( $sql );
+
+    return $result;
+}

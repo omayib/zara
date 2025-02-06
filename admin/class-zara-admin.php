@@ -94,8 +94,12 @@ class Zara_Admin {
 		return $column_array;
 	}
 	function zara_sync_status_row( $column_name, $post_id ){
-		// echo "🗹";
-		echo "⚠";
+        $data = zara_get_data_by_post( $post_id );
+        if ( $data && ! empty( $data->last_synced ) && $data->last_synced !== '0000-00-00 00:00:00' ) {
+            echo '<div class="sync-info">🗹 Last Synced: ' . esc_html( $data->last_synced ) . '</div>';
+        } else {
+            echo '<div class="sync-info">⚠ Not Synced</div>';
+        }
 		if($column_name=='indexed_zara'){
 			?>
             <div class="row-actions">
