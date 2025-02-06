@@ -60,11 +60,17 @@ function zara_init_settings() {
         ['sanitize_callback' => 'zara_sanitize_options']
     );
 
+    register_setting(
+        'zara_settings_group',
+        'zara_message_options',
+        ['sanitize_callback' => 'zara_sanitize_options']
+    );
+
     // OpenAPI Settings Section
     add_settings_section(
         'zara_setting_section_openapi',
-        'OpenAPI Key Settings',
-        'settings_section_openapi_callback',
+        'Openai Key Settings',
+        'settings_section_openai_callback',
         'zara-settings-page'
     );
 
@@ -98,6 +104,21 @@ function zara_init_settings() {
         'render_pinecone_index_field',
         'zara-settings-page',
         'zara_setting_section_pinecone'
+    );
+
+    // Message Settings Section
+    add_settings_section(
+        'zara_setting_section_message',
+        'Message Settings',
+        'settings_section_message_callback',
+        'zara-settings-page'
+    );
+    add_settings_field(
+        'message_setting_field',
+        'Welcome Message',
+        'render_message_setting_field',
+        'zara-settings-page',
+        'zara_setting_section_message'
     );
 }
 
@@ -139,13 +160,17 @@ function zara_handle_sync_buttons() {
     }
 }
 
-function settings_section_openapi_callback() {
+function settings_section_openai_callback() {
     echo '<p>Configure OpenAPI settings below:</p>';
 }
 
 function settings_section_pinecone_callback() {
     echo '<p>Configure Pinecone settings below:</p>';
 }
+function settings_section_message_callback() {
+    echo '<p>Configure defatult message settings below:</p>';
+}
+
 
 function render_openai_key_field() {
     $options = get_option('openai_options', []);
@@ -168,12 +193,18 @@ function render_pinecone_index_field() {
           class="regular-text">';
 }
 
+function render_message_setting_field() {
+    $options = get_option('zara_message_options', []);
+    echo '<input type="text" name="zara_message_options[zara_welcome_message]" 
+          value="' . esc_attr($options['zara_welcome_message'] ?? '') . '" 
+          class="regular-text">';
+}
+
 function zara_sanitize_options($input) {
     // Sanitize input here (e.g., trim whitespace, strip tags)
     $sanitized = [];
     if (isset($input['openai_key'])) {
         $sanitized['openai_key'] = sanitize_text_field($input['openai_key']);
-        error_log('openai_key : ' . $sanitized['openai_key']);
     }
     // Sanitize Pinecone values
     if (isset($input['pinecone_key'])) {
@@ -182,6 +213,10 @@ function zara_sanitize_options($input) {
     
     if (isset($input['pinecone_index'])) {
         $sanitized['pinecone_index'] = sanitize_text_field($input['pinecone_index']);
+    }
+
+    if (isset($input['zara_welcome_message'])) {
+        $sanitized['zara_welcome_message'] = sanitize_text_field($input['zara_welcome_message']);
     }
     foreach ($input as $key => $value) {
         $sanitized[$key] = sanitize_text_field($value);
