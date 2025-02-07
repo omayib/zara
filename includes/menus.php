@@ -20,6 +20,8 @@ function zara_admin_page() {
 }
 
 function zara_menu_callback() {
+    $options = get_option( 'cap_options' );
+    $selected_option = isset( $options['dropdown'] ) ? $options['dropdown'] : '';
     ?>
     <div class="wrap">
         <h1>Zara Settings</h1>
@@ -35,7 +37,89 @@ function zara_menu_callback() {
             <?php wp_nonce_field('zara_sync_action', 'zara_nonce'); ?>
             <input type="submit" name="zara_sync" class="button button-secondary" value="Sync">
         </form>
+
+    
+        <div class="wrap">
+            <h1>Conditional Admin Page</h1>
+            <form method="post" action="options.php">
+                <?php 
+                    settings_fields( 'cap_options_group' );
+                    do_settings_sections( 'cap_options_group' );
+                ?>
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Select an Option</th>
+                        <td>
+                            <select id="cap-dropdown" name="cap_options[dropdown]">
+                                <option value="">-- Select an Option --</option>
+                                <option value="option1" <?php selected( $selected_option, 'option1' ); ?>>Option 1</option>
+                                <option value="option2" <?php selected( $selected_option, 'option2' ); ?>>Option 2</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Fields for Option 1 -->
+                <div id="cap-option1-fields" style="display:none; margin: 15px 0;">
+                    <h3>Option 1 Settings</h3>
+                    <table class="form-table">
+                        <tr valign="top">
+                            <th scope="row">Input for Option 1</th>
+                            <td>
+                                <input type="text" name="cap_options[option1_input]" value="<?php echo isset( $options['option1_input'] ) ? esc_attr( $options['option1_input'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+
+                        <tr valign="top">
+                            <th scope="row">Input2 for Option 1</th>
+                            <td>
+                                <input type="text" name="cap_options[option1_input2]" value="<?php echo isset( $options['option1_input2'] ) ? esc_attr( $options['option1_input2'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Fields for Option 2 -->
+                <div id="cap-option2-fields" style="display:none; margin: 15px 0;">
+                    <h3>Option 2 Settings</h3>
+                    <table class="form-table">
+                        <tr valign="top">
+                            <th scope="row">Input for Option 2</th>
+                            <td>
+                                <input type="text" name="cap_options[option2_input]" value="<?php echo isset( $options['option2_input'] ) ? esc_attr( $options['option2_input'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <?php submit_button(); ?>
+            </form>
+        </div>
     </div>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        function toggleFields() {
+            var selected = $('#cap-dropdown').val();
+            if (selected === 'option1') {
+                $('#cap-option1-fields').show();
+                $('#cap-option2-fields').hide();
+            } else if (selected === 'option2') {
+                $('#cap-option2-fields').show();
+                $('#cap-option1-fields').hide();
+            } else {
+                $('#cap-option1-fields, #cap-option2-fields').hide();
+            }
+        }
+
+        // Run on page load in case an option is already saved
+        toggleFields();
+
+        // Bind the change event to the dropdown
+        $('#cap-dropdown').change(function() {
+            toggleFields();
+        });
+    });
+    </script>
     <?php
 }
 
@@ -57,6 +141,9 @@ function zara_init_settings() {
         'zara_message_options',
         ['sanitize_callback' => 'zara_sanitize_options']
     );
+
+
+    register_setting( 'cap_options_group', 'cap_options' );
 
     // OpenAPI Settings Section
     add_settings_section(
