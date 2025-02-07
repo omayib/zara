@@ -9,19 +9,20 @@ add_action('admin_init', 'zara_init_settings');
 
 function zara_admin_page() {
     add_menu_page(
-        __('Zara', 'zara-plugin'),
-        __('Zara', 'zara-plugin'),
-        'manage_options',
-        'zara-menu',
-        'zara_menu_callback',
-        ZARA_URL . 'admin/img/chat.png',
-        10
+        __('Zara', 'zara-plugin'),//page title
+        __('Zara', 'zara-plugin'),//menu title
+        'manage_options',//capability
+        'zara-menu',//menu slug
+        'zara_menu_render_view',//function
+        ZARA_URL . 'admin/img/chat.png',//icon url
+        10//position
     );
 }
 
-function zara_menu_callback() {
-    $options = get_option( 'cap_options' );
+function zara_menu_render_view() {
+    $options = get_option('zara_options', []);
     $selected_option = isset( $options['dropdown'] ) ? $options['dropdown'] : '';
+    
     ?>
     <div class="wrap">
         <h1>Zara Settings</h1>
@@ -29,85 +30,54 @@ function zara_menu_callback() {
             <?php
             settings_fields('zara_settings_group');
             do_settings_sections('zara-settings-page');
-            submit_button();
             ?>
-        </form>
-        <!-- Add a new form for the custom button -->
-        <form method="post">
-            <?php wp_nonce_field('zara_sync_action', 'zara_nonce'); ?>
-            <input type="submit" name="zara_sync" class="button button-secondary" value="Sync">
-        </form>
-
-    
-        <div class="wrap">
-            <h1>Conditional Admin Page</h1>
-            <form method="post" action="options.php">
-                <?php 
-                    settings_fields( 'cap_options_group' );
-                    do_settings_sections( 'cap_options_group' );
-                ?>
-                <table class="form-table">
+            <h2>Setting for Embedding and Completion Engine</h2>
+            <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Select an Option</th>
+                        <th scope="row">Select Provider</th>
                         <td>
-                            <select id="cap-dropdown" name="cap_options[dropdown]">
+                            <select id="zara-dropdown" name="zara_options[dropdown]">
                                 <option value="">-- Select an Option --</option>
-                                <option value="option1" <?php selected( $selected_option, 'option1' ); ?>>Option 1</option>
-                                <option value="option2" <?php selected( $selected_option, 'option2' ); ?>>Option 2</option>
+                                <option value="option1" <?php selected( $selected_option, 'option1' ); ?>>Open AI</option>
+                                <option value="option2" <?php selected( $selected_option, 'option2' ); ?>>Huggingface</option>
                             </select>
                         </td>
                     </tr>
-                </table>
+            </table>
 
-                <!-- Fields for Option 1 -->
-                <div id="cap-option1-fields" style="display:none; margin: 15px 0;">
-                    <h3>Option 1 Settings</h3>
+            <!-- Fields for Option 1 -->
+            <div id="zara-option1-fields" style="display:none; margin: 15px 0;">
+                    <h4>OpenAI Settings</h4>
                     <table class="form-table">
                         <tr valign="top">
-                            <th scope="row">Input for Option 1</th>
+                            <th scope="row">API Key</th>
                             <td>
-                                <input type="text" name="cap_options[option1_input]" value="<?php echo isset( $options['option1_input'] ) ? esc_attr( $options['option1_input'] ) : ''; ?>" />
-                            </td>
-                        </tr>
-
-                        <tr valign="top">
-                            <th scope="row">Input2 for Option 1</th>
-                            <td>
-                                <input type="text" name="cap_options[option1_input2]" value="<?php echo isset( $options['option1_input2'] ) ? esc_attr( $options['option1_input2'] ) : ''; ?>" />
+                                <input type="text" name="zara_options[openai_key]" value="<?php echo isset( $options['openai_key'] ) ? esc_attr( $options['openai_key'] ) : ''; ?>" />
                             </td>
                         </tr>
                     </table>
-                </div>
+            </div>
 
-                <!-- Fields for Option 2 -->
-                <div id="cap-option2-fields" style="display:none; margin: 15px 0;">
-                    <h3>Option 2 Settings</h3>
-                    <table class="form-table">
-                        <tr valign="top">
-                            <th scope="row">Input for Option 2</th>
-                            <td>
-                                <input type="text" name="cap_options[option2_input]" value="<?php echo isset( $options['option2_input'] ) ? esc_attr( $options['option2_input'] ) : ''; ?>" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <!-- Fields for Option 2 -->
+            <div id="zara-option2-fields" style="display:none; margin: 15px 0;">
+                <h3>Huggingface settings available soon</h3>
+            </div>
 
-                <?php submit_button(); ?>
-            </form>
-        </div>
+            <?php submit_button(); ?>
+        </form>
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
         function toggleFields() {
-            var selected = $('#cap-dropdown').val();
+            var selected = $('#zara-dropdown').val();
             if (selected === 'option1') {
-                $('#cap-option1-fields').show();
-                $('#cap-option2-fields').hide();
+                $('#zara-option1-fields').show();
+                $('#zara-option2-fields').hide();
             } else if (selected === 'option2') {
-                $('#cap-option2-fields').show();
-                $('#cap-option1-fields').hide();
+                $('#zara-option2-fields').show();
+                $('#zara-option1-fields').hide();
             } else {
-                $('#cap-option1-fields, #cap-option2-fields').hide();
+                $('#zara-option1-fields, #zara-option2-fields').hide();
             }
         }
 
@@ -115,7 +85,7 @@ function zara_menu_callback() {
         toggleFields();
 
         // Bind the change event to the dropdown
-        $('#cap-dropdown').change(function() {
+        $('#zara-dropdown').change(function() {
             toggleFields();
         });
     });
@@ -127,39 +97,14 @@ function zara_init_settings() {
     // Register settings with sanitization callbacks
     register_setting(
         'zara_settings_group',
-        'openai_options',
-        ['sanitize_callback' => 'zara_sanitize_options']
-    );
-    register_setting(
-        'zara_settings_group',
-        'pinecone_options',
-        ['sanitize_callback' => 'zara_sanitize_options']
-    );
-
-    register_setting(
-        'zara_settings_group',
-        'zara_message_options',
+        'zara_options',
         ['sanitize_callback' => 'zara_sanitize_options']
     );
 
 
-    register_setting( 'cap_options_group', 'cap_options' );
-
-    // OpenAPI Settings Section
-    add_settings_section(
-        'zara_setting_section_openapi',
-        'Openai Key Settings',
-        'settings_section_openai_callback',
-        'zara-settings-page'
-    );
-
-    add_settings_field(
-        'openai_key_field',
-        'API Key',
-        'render_openai_key_field',
-        'zara-settings-page',
-        'zara_setting_section_openapi'
-    );
+    register_setting( 'zara_settings_group', 
+        'zara_options',
+        ['sanitize_callback' => 'zara_sanitize_options'] );
 
     // Pinecone Settings Section
     add_settings_section(
@@ -214,29 +159,29 @@ function settings_section_message_callback() {
 
 
 function render_openai_key_field() {
-    $options = get_option('openai_options', []);
-    echo '<input type="text" name="openai_options[openai_key]" 
+    $options = get_option('zara_options', []);
+    echo '<input type="text" name="zara_options[openai_key]" 
           value="' . esc_attr($options['openai_key'] ?? '') . '" 
           class="regular-text">';
 }
 
 function render_pinecone_key_field() {
-    $options = get_option('pinecone_options', []);
-    echo '<input type="text" name="pinecone_options[pinecone_key]" 
+    $options = get_option('zara_options', []);
+    echo '<input type="text" name="zara_options[pinecone_key]" 
           value="' . esc_attr($options['pinecone_key'] ?? '') . '" 
           class="regular-text">';
 }
 
 function render_pinecone_index_field() {
-    $options = get_option('pinecone_options', []);
-    echo '<input type="text" name="pinecone_options[pinecone_index]" 
+    $options = get_option('zara_options', []);
+    echo '<input type="text" name="zara_options[pinecone_index]" 
           value="' . esc_attr($options['pinecone_index'] ?? '') . '" 
           class="regular-text">';
 }
 
 function render_message_setting_field() {
-    $options = get_option('zara_message_options', []);
-    echo '<input type="text" name="zara_message_options[zara_welcome_message]" 
+    $options = get_option('zara_options', []);
+    echo '<input type="text" name="zara_options[zara_welcome_message]" 
           value="' . esc_attr($options['zara_welcome_message'] ?? '') . '" 
           class="regular-text">';
 }
