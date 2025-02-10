@@ -5,7 +5,8 @@ class OpenAiEngine implements EmbeddingGeneratorInterface, ResponseGeneratorInte
     private $api_url_completion;
 
     public function __construct() {
-        $this->api_key = get_option('openai_options')['openai_key'];
+        $this->api_key = get_option('zara_options')['openai_key'];
+        $this->api_key_completion = get_option('zara_options')['openai_key_completion'];
         $this->api_url_embedding = 'https://api.openai.com/v1/embeddings';
         $this->api_url_completion = 'https://api.openai.com/v1/chat/completions';
     }
@@ -34,7 +35,7 @@ class OpenAiEngine implements EmbeddingGeneratorInterface, ResponseGeneratorInte
         $response = wp_remote_post($this->api_url_completion, [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->api_key,
+                'Authorization' => 'Bearer ' . $this->api_key_completion,
             ],
             'body' => json_encode([
                 'model' => 'gpt-3.5-turbo',
