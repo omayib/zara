@@ -121,13 +121,13 @@ function zara_menu_render_view() {
                         <tr valign="top">
                             <th scope="row">API Key</th>
                             <td>
-                                <input type="text" name="zara_options[pinecone_key_completion]" value="<?php echo isset( $options['pinecone_key_completion'] ) ? esc_attr( $options['pinecone_key_completion'] ) : ''; ?>" />
+                                <input type="text" name="zara_options[pinecone_key]" value="<?php echo isset( $options['pinecone_key'] ) ? esc_attr( $options['pinecone_key'] ) : ''; ?>" />
                             </td>
                         </tr>
                         <tr valign="top">
                             <th scope="row">URL</th>
                             <td>
-                                <input type="text" name="zara_options[pinecone_index_completion]" value="<?php echo isset( $options['pinecone_index_completion'] ) ? esc_attr( $options['pinecone_index_completion'] ) : ''; ?>" />
+                                <input type="text" name="zara_options[pinecone_index]" value="<?php echo isset( $options['pinecone_index'] ) ? esc_attr( $options['pinecone_index'] ) : ''; ?>" />
                             </td>
                         </tr>
                     </table>
@@ -142,65 +142,34 @@ function zara_menu_render_view() {
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        function toggleFields() {
-            var selected = $('#zara-dropdown').val();
-            if (selected === 'option1') {
-                $('#zara-option1-fields').show();
-                $('#zara-option2-fields').hide();
-            } else if (selected === 'option2') {
-                $('#zara-option2-fields').show();
-                $('#zara-option1-fields').hide();
-            } else {
-                $('#zara-option1-fields, #zara-option2-fields').hide();
+            function toggleFields(selector, field1, field2) {
+                var selected = $(selector).val();
+                if (selected === field1.expected) {
+                    $(field1.container).show();
+                    $(field2.container).hide();
+                } else if (selected === field2.expected) {
+                    $(field2.container).show();
+                    $(field1.container).hide();
+                } else {
+                    $(field1.container + ', ' + field2.container).hide();
+                }
             }
-        }
 
-        toggleFields();
+            toggleFields('#zara-dropdown', { expected: 'option1', container: '#zara-option1-fields' }, { expected: 'option2', container: '#zara-option2-fields' });
+            $('#zara-dropdown').change(function() {
+                toggleFields('#zara-dropdown', { expected: 'option1', container: '#zara-option1-fields' }, { expected: 'option2', container: '#zara-option2-fields' });
+            });
 
-        $('#zara-dropdown').change(function() {
-            toggleFields();
+            toggleFields('#zara-completion-dropdown', { expected: 'completion_option1', container: '#zara-completion-option1-fields' }, { expected: 'completion_option2', container: '#zara-completion-option2-fields' });
+            $('#zara-completion-dropdown').change(function() {
+                toggleFields('#zara-completion-dropdown', { expected: 'completion_option1', container: '#zara-completion-option1-fields' }, { expected: 'completion_option2', container: '#zara-completion-option2-fields' });
+            });
+
+            toggleFields('#zara-vector-dropdown', { expected: 'vector_option1', container: '#zara-vector-option1-fields' }, { expected: 'vector_option2', container: '#zara-vector-option2-fields' });
+            $('#zara-vector-dropdown').change(function() {
+                toggleFields('#zara-vector-dropdown', { expected: 'vector_option1', container: '#zara-vector-option1-fields' }, { expected: 'vector_option2', container: '#zara-vector-option2-fields' });
+            });
         });
-
-        // toggle for completion engine
-        function toggleCompletionFields() {
-            var selected = $('#zara-completion-dropdown').val();
-            if (selected === 'completion_option1') {
-                $('#zara-completion-option1-fields').show();
-                $('#zara-completion-option2-fields').hide();
-            } else if (selected === 'completion_option2') {
-                $('#zara-completion-option2-fields').show();
-                $('#zara-completion-option1-fields').hide();
-            } else {
-                $('#zara-completion-option1-fields, #zara-completion-option2-fields').hide();
-            }
-        }
-
-        toggleCompletionFields();
-
-        $('#zara-completion-dropdown').change(function() {
-            toggleCompletionFields();
-        });
-
-        // toggle for vector engine
-        function toggleVectorFields() {
-            var selected = $('#zara-vector-dropdown').val();
-            if (selected === 'vector_option1') {
-                $('#zara-vector-option1-fields').show();
-                $('#zara-vector-option2-fields').hide();
-            } else if (selected === 'vector_option2') {
-                $('#zara-vector-option2-fields').show();
-                $('#zara-vector-option1-fields').hide();
-            } else {
-                $('#zara-vector-option1-fields, #zara-vector-option2-fields').hide();
-            }
-        }
-
-        toggleVectorFields();
-
-        $('#zara-vector-dropdown').change(function() {
-            toggleVectorFields();
-        });
-    });
     </script>
     <?php
 }
@@ -305,30 +274,34 @@ function zara_sanitize_options($input) {
 function zara_key_warning() {
     // Retrieve the options array and check for the pinecone_key
     $options     = get_option( 'zara_options', [] );
-    $pinecone_key = isset( $options['pinecone_key'] ) ? $options['pinecone_key'] : '';
-    $openai_key = isset( $options['openai_key'] ) ? $options['openai_key'] : '';
-    $pinecone_index = isset( $options['pinecone_index'] ) ? $options['pinecone_index'] : '';
 
-    // If the key is empty, display a warning notice
-    if ( empty( $pinecone_key ) ) {
-        ?>
-        <div class="notice notice-warning is-dismissible">
-            <p><?php _e( 'Warning: Your Pinecone key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
-        </div>
-        <?php
-    }
-    if ( empty( $openai_key ) ) {
-        ?>
-        <div class="notice notice-warning is-dismissible">
-            <p><?php _e( 'Warning: Your Openai key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
-        </div>
-        <?php
-    }
-    if ( empty( $pinecone_index ) ) {
-        ?>
-        <div class="notice notice-warning is-dismissible">
-            <p><?php _e( 'Warning: Your Pinecone URL key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
-        </div>
-        <?php
+    // Check for required keys and display warnings if they are empty.
+    display_warning_if_empty(
+        $options,
+        'openai_key_completion',
+        __( 'Warning: Your OpenAI key for completion is missing. Please update your plugin settings.', 'zara-plugin' )
+    );
+    display_warning_if_empty(
+        $options,
+        'openai_key',
+        __( 'Warning: Your OpenAI key is missing. Please update your plugin settings.', 'zara-plugin' )
+    );
+    display_warning_if_empty(
+        $options,
+        'pinecone_index',
+        __( 'Warning: Your Pinecone URL key is missing. Please update your plugin settings.', 'zara-plugin' )
+    );
+    display_warning_if_empty(
+        $options,
+        'pinecone_key',
+        __( 'Warning: Your Pinecone Key key is missing. Please update your plugin settings.', 'zara-plugin' )
+    );
+}
+function display_warning_if_empty( $options, $key, $message ) {
+    if ( empty( $options[ $key ] ) ) {
+        printf(
+            '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+            esc_html( $message )
+        );
     }
 }
