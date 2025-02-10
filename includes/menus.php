@@ -218,30 +218,6 @@ function zara_init_settings() {
         'zara_options',
         ['sanitize_callback' => 'zara_sanitize_options'] );
 
-    // Pinecone Settings Section
-    add_settings_section(
-        'zara_setting_section_pinecone',
-        'Pinecone Key Settings',
-        'settings_section_pinecone_callback',
-        'zara-settings-page'
-    );
-
-    add_settings_field(
-        'pinecone_key_field',
-        'API Key',
-        'render_pinecone_key_field',
-        'zara-settings-page',
-        'zara_setting_section_pinecone'
-    );
-
-    add_settings_field(
-        'pinecone_index_field',
-        'Pinecone Index',
-        'render_pinecone_index_field',
-        'zara-settings-page',
-        'zara_setting_section_pinecone'
-    );
-
     // Message Settings Section
     add_settings_section(
         'zara_setting_section_message',
