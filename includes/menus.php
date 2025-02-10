@@ -23,6 +23,7 @@ function zara_admin_page() {
 function zara_menu_render_view() {
     $options = get_option('zara_options', []);
     $selected_option = isset( $options['dropdown'] ) ? $options['dropdown'] : '';
+    $selected_completion_option = isset( $options['completion_dropdown'] ) ? $options['completion_dropdown'] : '';
     
     ?>
     <div class="wrap">
@@ -32,7 +33,7 @@ function zara_menu_render_view() {
             settings_fields('zara_settings_group');
             do_settings_sections('zara-settings-page');
             ?>
-            <h2>Setting for Embedding and Completion Engine</h2>
+            <h2>Setting for Embedding Engine</h2>
             <table class="form-table">
                     <tr valign="top">
                         <th scope="row">Select Provider</th>
@@ -64,6 +65,38 @@ function zara_menu_render_view() {
                 <h3>Huggingface settings available soon</h3>
             </div>
 
+            <!-- setting for completion  -->
+            <h2>Setting for Completion Engine</h2>
+            <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Select Provider</th>
+                        <td>
+                            <select id="zara-completion-dropdown" name="zara_options[completion_dropdown]">
+                                <option value="">-- Select an Option --</option>
+                                <option value="completion_option1" <?php selected( $selected_completion_option, 'completion_option1' ); ?>>Open AI</option>
+                                <option value="completion_option2" <?php selected( $selected_completion_option, 'completion_option2' ); ?>>Huggingface</option>
+                            </select>
+                        </td>
+                    </tr>
+            </table>
+
+            <!-- Fields for Option 1 -->
+            <div id="zara-completion-option1-fields" style="display:none; margin: 15px 0;">
+                    <h4>OpenAI Settings</h4>
+                    <table class="form-table">
+                        <tr valign="top">
+                            <th scope="row">API Key</th>
+                            <td>
+                                <input type="text" name="zara_options[openai_key_completion]" value="<?php echo isset( $options['openai_key_completion'] ) ? esc_attr( $options['openai_key_completion'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+
+            <!-- Fields for Option 2 -->
+            <div id="zara-completion-option2-fields" style="display:none; margin: 15px 0;">
+                <h3>Huggingface settings available soon</h3>
+            </div>
             <?php submit_button(); ?>
         </form>
     </div>
@@ -82,12 +115,30 @@ function zara_menu_render_view() {
             }
         }
 
-        // Run on page load in case an option is already saved
         toggleFields();
 
-        // Bind the change event to the dropdown
         $('#zara-dropdown').change(function() {
             toggleFields();
+        });
+
+        // toggle for completion engine
+        function toggleCompletionFields() {
+            var selected = $('#zara-completion-dropdown').val();
+            if (selected === 'completion_option1') {
+                $('#zara-completion-option1-fields').show();
+                $('#zara-completion-option2-fields').hide();
+            } else if (selected === 'completion_option2') {
+                $('#zara-completion-option2-fields').show();
+                $('#zara-completion-option1-fields').hide();
+            } else {
+                $('#zara-completion-option1-fields, #zara-completion-option2-fields').hide();
+            }
+        }
+
+        toggleCompletionFields();
+
+        $('#zara-completion-dropdown').change(function() {
+            toggleCompletionFields();
         });
     });
     </script>
@@ -204,6 +255,10 @@ function zara_sanitize_options($input) {
 
     if (isset($input['zara_welcome_message'])) {
         $sanitized['zara_welcome_message'] = sanitize_text_field($input['zara_welcome_message']);
+    }
+
+    if (isset($input['openai_key_completion'])) {
+        $sanitized['openai_key_completion'] = sanitize_text_field($input['openai_key_completion']);
     }
     foreach ($input as $key => $value) {
         $sanitized[$key] = sanitize_text_field($value);
