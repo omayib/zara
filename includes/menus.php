@@ -24,6 +24,7 @@ function zara_menu_render_view() {
     $options = get_option('zara_options', []);
     $selected_option = isset( $options['dropdown'] ) ? $options['dropdown'] : '';
     $selected_completion_option = isset( $options['completion_dropdown'] ) ? $options['completion_dropdown'] : '';
+    $selected_vector_option = isset( $options['vector_dropdown'] ) ? $options['vector_dropdown'] : '';
     
     ?>
     <div class="wrap">
@@ -80,7 +81,7 @@ function zara_menu_render_view() {
                     </tr>
             </table>
 
-            <!-- Fields for Option 1 -->
+            <!-- Fields for completion Option 1 -->
             <div id="zara-completion-option1-fields" style="display:none; margin: 15px 0;">
                     <h4>OpenAI Settings</h4>
                     <table class="form-table">
@@ -93,9 +94,48 @@ function zara_menu_render_view() {
                     </table>
             </div>
 
-            <!-- Fields for Option 2 -->
+            <!-- Fields for  completion Option 2 -->
             <div id="zara-completion-option2-fields" style="display:none; margin: 15px 0;">
                 <h3>Huggingface settings available soon</h3>
+            </div>
+
+            <!-- setting for completion  -->
+            <h2>Setting for Vector Storage Engine</h2>
+            <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Select Provider</th>
+                        <td>
+                            <select id="zara-vector-dropdown" name="zara_options[vector_dropdown]">
+                                <option value="">-- Select an Option --</option>
+                                <option value="vector_option1" <?php selected( $selected_vector_option, 'vector_option1' ); ?>>Pinecone</option>
+                                <option value="vector_option2" <?php selected( $selected_vector_option, 'vector_option2' ); ?>>Qdrant</option>
+                            </select>
+                        </td>
+                    </tr>
+            </table>
+
+            <!-- Fields for completion Option 1 -->
+            <div id="zara-vector-option1-fields" style="display:none; margin: 15px 0;">
+                    <h4>Pinecone Settings</h4>
+                    <table class="form-table">
+                        <tr valign="top">
+                            <th scope="row">API Key</th>
+                            <td>
+                                <input type="text" name="zara_options[pinecone_key_completion]" value="<?php echo isset( $options['pinecone_key_completion'] ) ? esc_attr( $options['pinecone_key_completion'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row">URL</th>
+                            <td>
+                                <input type="text" name="zara_options[pinecone_index_completion]" value="<?php echo isset( $options['pinecone_index_completion'] ) ? esc_attr( $options['pinecone_index_completion'] ) : ''; ?>" />
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+
+            <!-- Fields for  vector Option 2 -->
+            <div id="zara-vector-option2-fields" style="display:none; margin: 15px 0;">
+                <h3>Qdrant settings available soon</h3>
             </div>
             <?php submit_button(); ?>
         </form>
@@ -139,6 +179,26 @@ function zara_menu_render_view() {
 
         $('#zara-completion-dropdown').change(function() {
             toggleCompletionFields();
+        });
+
+        // toggle for vector engine
+        function toggleVectorFields() {
+            var selected = $('#zara-vector-dropdown').val();
+            if (selected === 'vector_option1') {
+                $('#zara-vector-option1-fields').show();
+                $('#zara-vector-option2-fields').hide();
+            } else if (selected === 'vector_option2') {
+                $('#zara-vector-option2-fields').show();
+                $('#zara-vector-option1-fields').hide();
+            } else {
+                $('#zara-vector-option1-fields, #zara-vector-option2-fields').hide();
+            }
+        }
+
+        toggleVectorFields();
+
+        $('#zara-vector-dropdown').change(function() {
+            toggleVectorFields();
         });
     });
     </script>
