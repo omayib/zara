@@ -6,6 +6,7 @@ if (!defined('ZARA_URL')) {
 
 add_action('admin_menu', 'zara_admin_page');
 add_action('admin_init', 'zara_init_settings');
+add_action('admin_notices', 'zara_key_warning' );
 
 function zara_admin_page() {
     add_menu_page(
@@ -208,4 +209,35 @@ function zara_sanitize_options($input) {
         $sanitized[$key] = sanitize_text_field($value);
     }
     return $sanitized;
+}
+
+function zara_key_warning() {
+    // Retrieve the options array and check for the pinecone_key
+    $options     = get_option( 'zara_options', [] );
+    $pinecone_key = isset( $options['pinecone_key'] ) ? $options['pinecone_key'] : '';
+    $openai_key = isset( $options['openai_key'] ) ? $options['openai_key'] : '';
+    $pinecone_index = isset( $options['pinecone_index'] ) ? $options['pinecone_index'] : '';
+
+    // If the key is empty, display a warning notice
+    if ( empty( $pinecone_key ) ) {
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p><?php _e( 'Warning: Your Pinecone key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
+        </div>
+        <?php
+    }
+    if ( empty( $openai_key ) ) {
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p><?php _e( 'Warning: Your Openai key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
+        </div>
+        <?php
+    }
+    if ( empty( $pinecone_index ) ) {
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p><?php _e( 'Warning: Your Pinecone URL key is missing. Please update your plugin settings.', 'your-text-domain' ); ?></p>
+        </div>
+        <?php
+    }
 }
