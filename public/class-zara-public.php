@@ -121,16 +121,20 @@ class Zara_Public {
 			if (empty($message)) {
 				throw new Exception(__('Message cannot be empty', 'zara-plugin'));
 			}
+			$embedding_options =  get_option('zara_options')['embedding_options'];
+			$completion_options =  get_option('zara_options')['completion_options'];
 
-			$openai_engine = new OpenAiEngine();
+			$embedding_engine = EmbeddingEngine::create($embedding_options);
+			$completion_engine = CompletionEngine::create($completion_options);
+
 			$pinecone_engine = new PineconeEngine();
 			$prompt_constructor = new PromptConstructor();
 			$url_sanitizer = new UrlSanitizer();
 
 			$answer_finder = new AnswerFinder(
-				$openai_engine,
+				$embedding_engine,
 				$pinecone_engine,
-				$openai_engine,
+				$completion_engine,
 				$prompt_constructor,
 				$url_sanitizer
 			);
