@@ -6,8 +6,8 @@ class PineconeEngine implements VectorQueryInterface {
 
     public function __construct() {
         $this->api_key = get_option('zara_options')['pinecone_key'];
-        $this->api_url_upsert = get_option('zara_options')['pinecone_index']."/vectors/upsert";
-        $this->api_url_query = get_option('zara_options')['pinecone_index']."/query";
+        $this->api_url_upsert = get_option('zara_options')['pinecone_host']."/vectors/upsert";
+        $this->api_url_query = get_option('zara_options')['pinecone_host']."/query";
     }
     public function query(array $vector): array {
         $response = wp_remote_post($this->api_url_query, [
