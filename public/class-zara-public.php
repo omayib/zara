@@ -83,7 +83,7 @@ class Zara_Public {
 	}
 
 	function get_welcome_message(){
-		$welcome_message_options = get_option( 'zara_message_options', array() );
+		$welcome_message_options = get_option( 'zara_options', array() );
 		$welcome_message     = isset( $welcome_message_options['zara_welcome_message'] ) ? $welcome_message_options['zara_welcome_message'] : '';
 		return $welcome_message;
 	}
@@ -111,23 +111,21 @@ class Zara_Public {
 	}
 	public function process_message() {
 		try {
-			// Verify nonce
 			check_ajax_referer('zara_ajax_nonce', 'security');
 	
-			// Sanitize input
 			$message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
 	
-			// Validate input
 			if (empty($message)) {
 				throw new Exception(__('Message cannot be empty', 'zara-plugin'));
 			}
 			$embedding_options =  get_option('zara_options')['embedding_options'];
 			$completion_options =  get_option('zara_options')['completion_options'];
+			$vector_options =  get_option('zara_options')['vector_options'];
 
 			$embedding_engine = EmbeddingEngine::create($embedding_options);
 			$completion_engine = CompletionEngine::create($completion_options);
+			$pinecone_engine = VectorEngine::create($vector_options);
 
-			$pinecone_engine = new PineconeEngine();
 			$prompt_constructor = new PromptConstructor();
 			$url_sanitizer = new UrlSanitizer();
 

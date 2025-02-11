@@ -143,6 +143,7 @@ class Zara {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/indexing-contents.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/embedding-engine.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/completion-engine.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'rag/vector-engine.php';
 
 		$this->loader = new Zara_Loader();
 
