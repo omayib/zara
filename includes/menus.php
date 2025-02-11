@@ -22,9 +22,9 @@ function zara_admin_page() {
 
 function zara_menu_render_view() {
     $options = get_option('zara_options', []);
-    $selected_option = isset( $options['dropdown'] ) ? $options['dropdown'] : '';
-    $selected_completion_option = isset( $options['completion_dropdown'] ) ? $options['completion_dropdown'] : '';
-    $selected_vector_option = isset( $options['vector_dropdown'] ) ? $options['vector_dropdown'] : '';
+    $selected_embeding_option = isset( $options['embedding_options'] ) ? $options['embedding_options'] : '';
+    $selected_completion_option = isset( $options['completion_options'] ) ? $options['completion_options'] : '';
+    $selected_vector_option = isset( $options['vector_options'] ) ? $options['vector_options'] : '';
     
     ?>
     <div class="wrap">
@@ -39,10 +39,10 @@ function zara_menu_render_view() {
                     <tr valign="top">
                         <th scope="row">Select Provider</th>
                         <td>
-                            <select id="zara-dropdown" name="zara_options[dropdown]">
+                            <select id="zara-dropdown" name="zara_options[embedding_options]">
                                 <option value="">-- Select an Option --</option>
-                                <option value="option1" <?php selected( $selected_option, 'option1' ); ?>>Open AI</option>
-                                <option value="option2" <?php selected( $selected_option, 'option2' ); ?>>Huggingface</option>
+                                <option value="openai" <?php selected( $selected_embeding_option, 'openai' ); ?>>Open AI</option>
+                                <option value="huggingface" <?php selected( $selected_embeding_option, 'huggingface' ); ?>>Huggingface</option>
                             </select>
                         </td>
                     </tr>
@@ -72,10 +72,10 @@ function zara_menu_render_view() {
                     <tr valign="top">
                         <th scope="row">Select Provider</th>
                         <td>
-                            <select id="zara-completion-dropdown" name="zara_options[completion_dropdown]">
+                            <select id="zara-completion-dropdown" name="zara_options[completion_options]">
                                 <option value="">-- Select an Option --</option>
-                                <option value="completion_option1" <?php selected( $selected_completion_option, 'completion_option1' ); ?>>Open AI</option>
-                                <option value="completion_option2" <?php selected( $selected_completion_option, 'completion_option2' ); ?>>Huggingface</option>
+                                <option value="openai" <?php selected( $selected_completion_option, 'openai' ); ?>>Open AI</option>
+                                <option value="huggingface" <?php selected( $selected_completion_option, 'huggingface' ); ?>>Huggingface</option>
                             </select>
                         </td>
                     </tr>
@@ -105,10 +105,10 @@ function zara_menu_render_view() {
                     <tr valign="top">
                         <th scope="row">Select Provider</th>
                         <td>
-                            <select id="zara-vector-dropdown" name="zara_options[vector_dropdown]">
+                            <select id="zara-vector-dropdown" name="zara_options[vector_options]">
                                 <option value="">-- Select an Option --</option>
-                                <option value="vector_option1" <?php selected( $selected_vector_option, 'vector_option1' ); ?>>Pinecone</option>
-                                <option value="vector_option2" <?php selected( $selected_vector_option, 'vector_option2' ); ?>>Qdrant</option>
+                                <option value="pinecone" <?php selected( $selected_vector_option, 'pinecone' ); ?>>Pinecone</option>
+                                <option value="qdrant" <?php selected( $selected_vector_option, 'qdrant' ); ?>>Qdrant</option>
                             </select>
                         </td>
                     </tr>
@@ -125,9 +125,9 @@ function zara_menu_render_view() {
                             </td>
                         </tr>
                         <tr valign="top">
-                            <th scope="row">URL</th>
+                            <th scope="row">Host</th>
                             <td>
-                                <input type="text" name="zara_options[pinecone_index]" value="<?php echo isset( $options['pinecone_index'] ) ? esc_attr( $options['pinecone_index'] ) : ''; ?>" />
+                                <input type="text" name="zara_options[pinecone_host]" value="<?php echo isset( $options['pinecone_host'] ) ? esc_attr( $options['pinecone_host'] ) : ''; ?>" />
                             </td>
                         </tr>
                     </table>
@@ -155,19 +155,19 @@ function zara_menu_render_view() {
                 }
             }
 
-            toggleFields('#zara-dropdown', { expected: 'option1', container: '#zara-option1-fields' }, { expected: 'option2', container: '#zara-option2-fields' });
+            toggleFields('#zara-dropdown', { expected: 'openai', container: '#zara-option1-fields' }, { expected: 'huggingface', container: '#zara-option2-fields' });
             $('#zara-dropdown').change(function() {
-                toggleFields('#zara-dropdown', { expected: 'option1', container: '#zara-option1-fields' }, { expected: 'option2', container: '#zara-option2-fields' });
+                toggleFields('#zara-dropdown', { expected: 'openai', container: '#zara-option1-fields' }, { expected: 'huggingface', container: '#zara-option2-fields' });
             });
 
-            toggleFields('#zara-completion-dropdown', { expected: 'completion_option1', container: '#zara-completion-option1-fields' }, { expected: 'completion_option2', container: '#zara-completion-option2-fields' });
+            toggleFields('#zara-completion-dropdown', { expected: 'openai', container: '#zara-completion-option1-fields' }, { expected: 'huggingface', container: '#zara-completion-option2-fields' });
             $('#zara-completion-dropdown').change(function() {
-                toggleFields('#zara-completion-dropdown', { expected: 'completion_option1', container: '#zara-completion-option1-fields' }, { expected: 'completion_option2', container: '#zara-completion-option2-fields' });
+                toggleFields('#zara-completion-dropdown', { expected: 'openai', container: '#zara-completion-option1-fields' }, { expected: 'huggingface', container: '#zara-completion-option2-fields' });
             });
 
-            toggleFields('#zara-vector-dropdown', { expected: 'vector_option1', container: '#zara-vector-option1-fields' }, { expected: 'vector_option2', container: '#zara-vector-option2-fields' });
+            toggleFields('#zara-vector-dropdown', { expected: 'pinecone', container: '#zara-vector-option1-fields' }, { expected: 'qdrant', container: '#zara-vector-option2-fields' });
             $('#zara-vector-dropdown').change(function() {
-                toggleFields('#zara-vector-dropdown', { expected: 'vector_option1', container: '#zara-vector-option1-fields' }, { expected: 'vector_option2', container: '#zara-vector-option2-fields' });
+                toggleFields('#zara-vector-dropdown', { expected: 'pinecone', container: '#zara-vector-option1-fields' }, { expected: 'qdrant', container: '#zara-vector-option2-fields' });
             });
         });
     </script>
@@ -229,10 +229,10 @@ function render_pinecone_key_field() {
           class="regular-text">';
 }
 
-function render_pinecone_index_field() {
+function render_pinecone_host_field() {
     $options = get_option('zara_options', []);
-    echo '<input type="text" name="zara_options[pinecone_index]" 
-          value="' . esc_attr($options['pinecone_index'] ?? '') . '" 
+    echo '<input type="text" name="zara_options[pinecone_host]" 
+          value="' . esc_attr($options['pinecone_host'] ?? '') . '" 
           class="regular-text">';
 }
 
@@ -254,8 +254,8 @@ function zara_sanitize_options($input) {
         $sanitized['pinecone_key'] = sanitize_text_field($input['pinecone_key']);
     }
     
-    if (isset($input['pinecone_index'])) {
-        $sanitized['pinecone_index'] = sanitize_text_field($input['pinecone_index']);
+    if (isset($input['pinecone_host'])) {
+        $sanitized['pinecone_host'] = sanitize_text_field($input['pinecone_host']);
     }
 
     if (isset($input['zara_welcome_message'])) {
@@ -288,8 +288,8 @@ function zara_key_warning() {
     );
     display_warning_if_empty(
         $options,
-        'pinecone_index',
-        __( 'Warning: Your Pinecone URL key is missing. Please update your plugin settings.', 'zara-plugin' )
+        'pinecone_host',
+        __( 'Warning: Your Pinecone Host key is missing. Please update your plugin settings.', 'zara-plugin' )
     );
     display_warning_if_empty(
         $options,
