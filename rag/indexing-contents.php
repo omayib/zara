@@ -16,7 +16,7 @@ class IndexingContents{
         $urlContent = get_permalink($content->ID);
         $htmlContent = apply_filters('the_content', $content->post_content);
         $cleanedText = cleanHtml($htmlContent);
-        $chunks = get_overlapping_word_chunks($cleanedText,20,5);
+        $chunks = get_overlapping_word_chunks($cleanedText,100,25);
         foreach($chunks as $chunk){
             $vectors = $this->embeddingGenerator->generate_embedding($chunk);
             $prepare = [
