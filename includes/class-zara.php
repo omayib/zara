@@ -195,7 +195,8 @@ class Zara {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		add_action( 'wp_footer', array( $plugin_public, 'render_chat_widget' ) );
+		// add_action( 'wp_footer', array( $plugin_public, 'render_chat_widget' ) );
+		add_shortcode('chat_widget', array($plugin_public, 'render_chat_widget'));
 		$plugin_public->register_ajax_handlers();
 	}
 

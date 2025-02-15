@@ -16,7 +16,7 @@
  * Plugin Name:       Zara
  * Plugin URI:        http://example.com/zara-uri/
  * Description:       Zara is an AI-powered WordPress plugin that makes content discovery interactive and fun. It uses engaging questions to help users quickly find the content they need.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            omayib
  * Author URI:        http://example.com/
  * License:           GPL-2.0+

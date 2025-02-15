@@ -12,21 +12,25 @@
 }
 
 .chat-box {
-    display: none;
-    background: linear-gradient(135deg, #6e7bff, #3a4dff);
-    color: white;
+    background: white;
+    padding: 10px;
     border-radius: 10px;
-    width: 320px;
-    max-height: 450px;
-    padding: 15px;
-    display: flex;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
     flex-direction: column;
-    position: absolute; /* Use absolute positioning relative to chat-container */
-bottom: 70px; /* Position it above the chat button */
-right: 0; /* Align it to the right edge */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+.chat-inline {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+}
+
+.chat-inline .chat-box {
+    display: block !important;
+    width: 100%;
+}
 .messages {
     flex-grow: 1;
     overflow-y: auto;

@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const inputMessage = document.getElementById('input-message');
 	const messages = document.getElementById('messages');
 	
+    const isInline = chatContainer.classList.contains('chat-inline');
 	// Function to show the welcome message if no conversation has started yet
 	function showWelcomeMessage() {
 		if (messages.children.length === 0) { // Check if no messages exist yet
@@ -20,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Show the welcome message if no conversation exists when the page is loaded
 	showWelcomeMessage();
 
-	// Toggle chat box visibility
-	chatBtn.addEventListener('click', () => {
-		chatBox.style.display = chatBox.style.display === 'none' || chatBox.style.display === '' ? 'flex' : 'none';
-
-	});
+	if (!isInline && chatBtn) {
+        chatBtn.addEventListener('click', () => {
+            chatBox.style.display = chatBox.style.display === 'none' || chatBox.style.display === '' ? 'flex' : 'none';
+        });
+    }
 
 	sendBtn.addEventListener('click', () => {
 		const userMessage = inputMessage.value.trim();

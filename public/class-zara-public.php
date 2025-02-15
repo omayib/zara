@@ -88,20 +88,31 @@ class Zara_Public {
 		return $welcome_message;
 	}
 	 // Add floating chat widget to footer
-	 public function render_chat_widget() {
-        ?>
-			<div id="chat-container" class="chat-container">
-				<div id="chat-box" class="chat-box" style="display: none">
-					<div id="messages" class="messages"></div>
-					<div style="display: flex; width: 100%;">
-						<input type="text" id="input-message" class="input-message" placeholder="Sampaikan pertanyaanmu..." />
-						<button id="send-btn" class="send-btn">Send</button>
-					</div>
+	public function render_chat_widget($atts) {
+		$atts = shortcode_atts(array(
+			'mode' => 'floating' // Default mode is floating
+		), $atts, 'chat_widget');
+	
+		$is_inline = ($atts['mode'] === 'inline');
+	
+		ob_start();
+		?>
+		<div id="chat-container" class="chat-container <?php echo $is_inline ? 'chat-inline' : ''; ?>">
+			<div id="chat-box" class="chat-box" style="<?php echo $is_inline ? 'display: block' : 'display: none'; ?>">
+				<div id="messages" class="messages"></div>
+				<div style="display: flex; width: 100%;">
+					<input type="text" id="input-message" class="input-message" placeholder="Sampaikan pertanyaanmu..." />
+					<button id="send-btn" class="send-btn">Send</button>
 				</div>
-				<button id="chat-btn" class="chat-btn">💬</button>
 			</div>
-        <?php
-    }
+			<?php if (!$is_inline) : ?>
+				<button id="chat-btn" class="chat-btn">💬</button>
+			<?php endif; ?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+	
 
 	public function register_ajax_handlers() {
 		// For logged-in users
