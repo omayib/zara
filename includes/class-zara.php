@@ -123,6 +123,7 @@ class Zara {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-zara-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/zara-session.php';
 
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/menus.php';
@@ -175,6 +176,7 @@ class Zara {
 	 */
 	private function define_admin_hooks() {
 		zara_init_database();
+		zara_init_conversations_database();
 		$plugin_admin = new Zara_Admin( $this->get_Zara(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );

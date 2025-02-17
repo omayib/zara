@@ -9,6 +9,10 @@ function zara_get_table_name() {
     global $wpdb;
     return $wpdb->prefix . 'zara_sync_data';
 }
+function zara_get_conversations_table_name() {
+    global $wpdb;
+    return $wpdb->prefix . 'zara_conversations';
+}
 /**
  * Create or update the custom zara_sync_data table in the database.
  */
@@ -87,4 +91,37 @@ function zara_get_data_by_post( $post_id ) {
     $result = $wpdb->get_row( $sql );
 
     return $result;
+}
+
+function zara_init_conversations_database() {
+    global $wpdb;
+    $table_name = zara_get_conversations_table_name();
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        session_id VARCHAR(255) NOT NULL,
+        question TEXT NOT NULL,
+        retrieved_docs TEXT NOT NULL,
+        generated_answer TEXT NOT NULL,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    ) $charset_collate;";
+
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($sql);
+}
+function zara_store_conversation($session_id, $question, $retrieved_docs, $generated_answer) {
+    global $wpdb;
+    $table_name = zara_get_conversations_table_name();
+
+    $wpdb->insert(
+        $table_name,
+        [
+            'session_id' => $session_id,
+            'question'    => $question,
+            'retrieved_docs'    => $retrieved_docs,
+            'generated_answer'     => $generated_answer
+        ],
+        ['%s', '%s', '%s']
+    );
 }

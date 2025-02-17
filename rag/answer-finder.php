@@ -32,6 +32,10 @@ class AnswerFinder {
         $prompt = $this->promptConstructor->construct($question, $mostRelevantText);
         $answer = $this->responseGenerator->generate_response($prompt);
 
+        //store the result
+        zara_store_conversation(zara_get_cookie_session_id(),$question, $mostRelevantText, $answer);
+
+
         return [
             'text' => $answer,
             'sourceDocuments' => $uniqueUrls
