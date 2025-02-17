@@ -125,3 +125,10 @@ function zara_store_conversation($session_id, $question, $retrieved_docs, $gener
         ['%s', '%s', '%s']
     );
 }
+
+function zara_conversation_admin_page() {
+    global $wpdb;
+    $table_name = zara_get_conversations_table_name();
+    $results = $wpdb->get_results("SELECT * FROM $table_name ORDER BY timestamp DESC");
+    return $results;
+}

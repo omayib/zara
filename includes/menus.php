@@ -25,6 +25,7 @@ function zara_menu_render_view() {
     $selected_embeding_option = isset( $options['embedding_options'] ) ? $options['embedding_options'] : '';
     $selected_completion_option = isset( $options['completion_options'] ) ? $options['completion_options'] : '';
     $selected_vector_option = isset( $options['vector_options'] ) ? $options['vector_options'] : '';
+    $conversations = zara_conversation_admin_page(); // Get data
     
     ?>
     <div class="wrap">
@@ -139,6 +140,22 @@ function zara_menu_render_view() {
             </div>
             <?php submit_button(); ?>
         </form>
+        <?php
+            echo "<h1>Zara Conversations</h1>";
+            echo "<table border='1'>
+            <tr><th>Session ID</th><th>question</th><th>retrieved_docs</th><th>generated_answer</th><th>Timestamp</th></tr>";
+            
+            foreach ($conversations as $row) {
+                echo "<tr>
+                    <td>{$row->session_id}</td>
+                    <td>{$row->question}</td>
+                    <td>{$row->retrieved_docs}</td>
+                    <td>{$row->generated_answer}</td>
+                    <td>{$row->timestamp}</td>
+                </tr>";
+            }
+            echo "</table>";
+        ?>
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
