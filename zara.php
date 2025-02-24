@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              https://hizara.chat
  * @since             1.0.0
  * @package           Zara
  *
  * @wordpress-plugin
  * Plugin Name:       Zara
- * Plugin URI:        http://example.com/zara-uri/
+ * Plugin URI:        https://hizara.chat
  * Description:       Zara is an AI-powered WordPress plugin that makes content discovery interactive and fun. It uses engaging questions to help users quickly find the content they need.
  * Version:           1.0.1
  * Author:            omayib
- * Author URI:        http://example.com/
+ * Author URI:        https://hizara.chat
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       zara
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'ZARA_VERSION', '1.0.0' );
+define( 'ZARA_VERSION', '1.1.0' );
 define( 'ZARA_URL', trailingslashit( plugins_url('/', __FILE__) ) );
 
 /**
