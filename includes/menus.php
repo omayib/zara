@@ -10,8 +10,8 @@ add_action('admin_notices', 'zara_key_warning' );
 
 function zara_admin_page() {
     add_menu_page(
-        __('Zara', 'zara'),//page title
-        __('Zara', 'zara'),//menu title
+        __('Zara', 'Zara'),//page title
+        __('Zara', 'Zara'),//menu title
         'manage_options',//capability
         'zara-menu',//menu slug
         'zara_menu_render_view',//function
@@ -141,21 +141,24 @@ function zara_menu_render_view() {
             <?php submit_button(); ?>
         </form>
         <?php
-            echo "<h1>Zara Conversations</h1>";
-            echo "<table border='1'>
-            <tr><th>Session ID</th><th>question</th><th>retrieved_docs</th><th>generated_answer</th><th>Timestamp</th></tr>";
-            
-            foreach ($conversations as $row) {
-                echo "<tr>
-                    <td>{$row->session_id}</td>
-                    <td>{$row->question}</td>
-                    <td>{$row->retrieved_docs}</td>
-                    <td>{$row->generated_answer}</td>
-                    <td>{$row->timestamp}</td>
-                </tr>";
-            }
-            echo "</table>";
+        echo '<h1>Zara Conversations</h1>';
+        echo '<table border="1">';
+        echo '<tr><th>Session ID</th><th>question</th><th>retrieved_docs</th><th>generated_answer</th><th>Timestamp</th></tr>';
+
+        foreach ( $conversations as $row ) {
+
+            echo '<tr>';
+            echo '<td>' . esc_html( $row->session_id ) . '</td>';
+            echo '<td>' . esc_html( $row->question ) . '</td>';
+            echo '<td>' . esc_html( $row->retrieved_docs ) . '</td>';
+            echo '<td>' . esc_html( $row->generated_answer ) . '</td>';
+            echo '<td>' . esc_html( $row->timestamp ) . '</td>';
+            echo '</tr>';
+        }
+
+        echo '</table>';
         ?>
+
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
@@ -196,13 +199,13 @@ function zara_init_settings() {
     register_setting(
         'zara_settings_group',
         'zara_options',
-        ['sanitize_callback' => 'zara_sanitize_options']
+        'zara_sanitize_options'
     );
 
 
     register_setting( 'zara_settings_group', 
         'zara_options',
-        ['sanitize_callback' => 'zara_sanitize_options'] );
+        'zara_sanitize_options' );
 
     // Message Settings Section
     add_settings_section(
@@ -296,22 +299,22 @@ function zara_key_warning() {
     display_warning_if_empty(
         $options,
         'openai_key_completion',
-        __( 'Warning: Your OpenAI key for completion is missing. Please update your plugin settings.', 'zara' )
+        __( 'Warning: Your OpenAI key for completion is missing. Please update your plugin settings.', 'Zara' )
     );
     display_warning_if_empty(
         $options,
         'openai_key',
-        __( 'Warning: Your OpenAI key is missing. Please update your plugin settings.', 'zara' )
+        __( 'Warning: Your OpenAI key is missing. Please update your plugin settings.', 'Zara' )
     );
     display_warning_if_empty(
         $options,
         'pinecone_host',
-        __( 'Warning: Your Pinecone Host key is missing. Please update your plugin settings.', 'zara' )
+        __( 'Warning: Your Pinecone Host key is missing. Please update your plugin settings.', 'Zara' )
     );
     display_warning_if_empty(
         $options,
         'pinecone_key',
-        __( 'Warning: Your Pinecone Key key is missing. Please update your plugin settings.', 'zara' )
+        __( 'Warning: Your Pinecone Key key is missing. Please update your plugin settings.', 'Zara' )
     );
 }
 function display_warning_if_empty( $options, $key, $message ) {
