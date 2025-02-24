@@ -13,15 +13,15 @@
  * @package           Zara
  *
  * @wordpress-plugin
- * Plugin Name:       Zara
+ * Plugin Name:       Zara Chat
  * Plugin URI:        https://hizara.chat
  * Description:       Zara is an AI-powered WordPress plugin that makes content discovery interactive and fun. It uses engaging questions to help users quickly find the content they need.
  * Version:           1.0.1
  * Author:            omayib
- * Author URI:        https://hizara.chat
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       zara
+ * Author URI:        https://github.com/omayib
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       zara-chat
  * Domain Path:       /languages
  */
 
