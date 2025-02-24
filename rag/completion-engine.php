@@ -5,7 +5,12 @@ class CompletionEngine{
             case 'openai':
                 return new OpenAiEngine();
             default:
-                throw new Exception("Embedding engine '{$engineType}' is not recognized");
+                throw new Exception(
+                    sprintf(
+                        "Completion engine '%s' is not recognized",
+                        esc_html( $engineType )
+                    )
+                );
         }
     }
 }

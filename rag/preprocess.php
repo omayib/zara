@@ -2,7 +2,7 @@
 function preprocess_text(string $pieces_of_text): string {
     // 1. Clean text
     $text = preg_replace('/\s+/', ' ', trim($pieces_of_text));
-    $text = strip_tags($text);
+    $text = wp_strip_all_tags($text);
     
     // 2. Normalize case and punctuation
     $text = mb_strtolower($text, 'UTF-8');

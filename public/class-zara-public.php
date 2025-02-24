@@ -124,10 +124,10 @@ class Zara_Public {
 		try {
 			check_ajax_referer('zara_ajax_nonce', 'security');
 	
-			$message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
+			$message = isset($_POST['message']) ? sanitize_text_field(wp_unslash( $_POST['message'] )) : '';
 	
 			if (empty($message)) {
-				throw new Exception(__('Message cannot be empty', 'zara'));
+				throw new Exception(__('Message cannot be empty', 'Zara'));
 			}
 			$embedding_options =  get_option('zara_options')['embedding_options'];
 			$completion_options =  get_option('zara_options')['completion_options'];

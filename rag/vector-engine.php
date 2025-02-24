@@ -5,7 +5,12 @@ class VectorEngine{
             case 'pinecone':
                 return new PineconeEngine();
             default:
-                throw new Exception("Vector engine '{$engineType}' is not recognized");
+                throw new Exception(
+                    sprintf(
+                        "Vector engine '%s' is not recognized",
+                        esc_html( $engineType )
+                    )
+                );
         }
     }
 }
