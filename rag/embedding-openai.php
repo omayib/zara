@@ -3,7 +3,6 @@
 function generate_embeddings($content) {
     $api_key = get_option('openai_options')['openai_key'];
     $api_url = 'https://api.openai.com/v1/embeddings';
-    // $api_key = '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';
 
     $response = wp_remote_post($api_url, [
         'headers' => [
@@ -29,7 +28,6 @@ function generate_embeddings($content) {
 function generate_gpt_response($prompt) {
     $api_key = get_option('openai_options')['openai_key'];
     $api_url = 'https://api.openai.com/v1/chat/completions';
-    // $api_key = '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';
 
     $response = wp_remote_post($api_url, [
         'headers' => [

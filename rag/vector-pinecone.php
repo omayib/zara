@@ -3,8 +3,6 @@
 function store_vector_in_pinecone($id, $embedding, $metadata = []) {
     $api_key = get_option('pinecone_options')['pinecone_key'];
     $api_url = get_option('pinecone_options')['pinecone_index']."/vectors/upsert";
-    // $api_url = 'https://talktome-k35tbc2.svc.aped-4627-b74a.pinecone.io/vectors/upsert';
-    // $api_key = 'pcsk_4h7JFe_LN6iAeH8fW6cfTmZ1uGe4uqzwmZ9zyPiEqhX5cPvyViuJUpe5CMcxP1cu4hg59q';
 
     $response = wp_remote_post($api_url, [
         'headers' => [
@@ -33,8 +31,6 @@ function query_vectors_in_pinecone($query_vector, $top_k = 5) {
 
     $api_key = get_option('pinecone_options')['pinecone_key'];
     $api_url = get_option('pinecone_options')['pinecone_index']."/query";
-    // $api_url = 'https://talktome-k35tbc2.svc.aped-4627-b74a.pinecone.io/query';
-    // $api_key = 'pcsk_4h7JFe_LN6iAeH8fW6cfTmZ1uGe4uqzwmZ9zyPiEqhX5cPvyViuJUpe5CMcxP1cu4hg59q';
 
     $response = wp_remote_post($api_url, [
         'headers' => [
