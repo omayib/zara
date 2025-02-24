@@ -70,7 +70,7 @@ class Zara {
 		if ( defined( 'ZARA_VERSION' ) ) {
 			$this->version = ZARA_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->Zara = 'zara';
 
