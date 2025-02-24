@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://example.com
+ * @link       https://hizara.chat/
  * @since      1.0.0
  *
  * @package    Zara
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Zara
  * @subpackage Zara/includes
- * @author     Your Name <email@example.com>
+ * @author     omayib <omayib@gmail.com>
  */
 class Zara {
 

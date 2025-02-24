@@ -3,7 +3,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       http://example.com
+ * @link       https://hizara.chat/
  * @since      1.0.0
  *
  * @package    Zara
@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Zara
  * @subpackage Zara/includes
- * @author     Your Name <email@example.com>
+ * @author     omayib <omayib@gmail.com>
  */
 class Zara_Activator {
 

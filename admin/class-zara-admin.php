@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://hizara.chat/
  * @since      1.0.0
  *
  * @package    Zara
@@ -18,7 +18,7 @@
  *
  * @package    Zara
  * @subpackage Zara/admin
- * @author     Your Name <email@example.com>
+ * @author     omayib <omayib@gmail.com>
  */
 class Zara_Admin {
 

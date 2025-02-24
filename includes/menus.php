@@ -10,8 +10,8 @@ add_action('admin_notices', 'zara_key_warning' );
 
 function zara_admin_page() {
     add_menu_page(
-        __('Zara', 'zara-plugin'),//page title
-        __('Zara', 'zara-plugin'),//menu title
+        __('Zara', 'zara'),//page title
+        __('Zara', 'zara'),//menu title
         'manage_options',//capability
         'zara-menu',//menu slug
         'zara_menu_render_view',//function
@@ -296,22 +296,22 @@ function zara_key_warning() {
     display_warning_if_empty(
         $options,
         'openai_key_completion',
-        __( 'Warning: Your OpenAI key for completion is missing. Please update your plugin settings.', 'zara-plugin' )
+        __( 'Warning: Your OpenAI key for completion is missing. Please update your plugin settings.', 'zara' )
     );
     display_warning_if_empty(
         $options,
         'openai_key',
-        __( 'Warning: Your OpenAI key is missing. Please update your plugin settings.', 'zara-plugin' )
+        __( 'Warning: Your OpenAI key is missing. Please update your plugin settings.', 'zara' )
     );
     display_warning_if_empty(
         $options,
         'pinecone_host',
-        __( 'Warning: Your Pinecone Host key is missing. Please update your plugin settings.', 'zara-plugin' )
+        __( 'Warning: Your Pinecone Host key is missing. Please update your plugin settings.', 'zara' )
     );
     display_warning_if_empty(
         $options,
         'pinecone_key',
-        __( 'Warning: Your Pinecone Key key is missing. Please update your plugin settings.', 'zara-plugin' )
+        __( 'Warning: Your Pinecone Key key is missing. Please update your plugin settings.', 'zara' )
     );
 }
 function display_warning_if_empty( $options, $key, $message ) {

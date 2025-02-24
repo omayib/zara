@@ -3,7 +3,7 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://example.com
+ * @link       https://hizara.chat/
  * @since      1.0.0
  *
  * @package    Zara
@@ -19,7 +19,7 @@
  *
  * @package    Zara
  * @subpackage Zara/includes
- * @author     Your Name <email@example.com>
+ * @author     omayib <omayib@gmail.com>
  */
 class Zara_Loader {
 

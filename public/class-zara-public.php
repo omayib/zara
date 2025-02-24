@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://hizara.chat/
  * @since      1.0.0
  *
  * @package    Zara
@@ -18,7 +18,7 @@
  *
  * @package    Zara
  * @subpackage Zara/public
- * @author     Your Name <email@example.com>
+ * @author     omayib <omayib@gmail.com>
  */
 class Zara_Public {
 
@@ -127,7 +127,7 @@ class Zara_Public {
 			$message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
 	
 			if (empty($message)) {
-				throw new Exception(__('Message cannot be empty', 'zara-plugin'));
+				throw new Exception(__('Message cannot be empty', 'zara'));
 			}
 			$embedding_options =  get_option('zara_options')['embedding_options'];
 			$completion_options =  get_option('zara_options')['completion_options'];
