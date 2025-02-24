@@ -4,8 +4,6 @@ function external_custom_function($post_id){
     $post = get_post($post_id);
     $urlContent = get_permalink($post->ID);
     $htmlContent = apply_filters('the_content', $post->post_content);
-    error_log("post_content ".$htmlContent);
-
 
     // Processing pipeline
     $cleanedText = cleanHtml($htmlContent);
@@ -22,7 +20,6 @@ function external_custom_function($post_id){
                 "text"=>$chunk
             ]
         ];
-        error_log(json_encode($prepare));
         store_vector_in_pinecone($prepare["id"],$prepare["vector"],$prepare["meta"]);
     }
 }
@@ -69,10 +66,10 @@ function read_all_content(){
 }
 
 function cleanHtml($content) {
-    $content = strip_tags($content, '<br><p>');
+    $content = wp_strip_all_tags($content, '<br><p>');
     $content = html_entity_decode($content);
     $content = preg_replace('/\s+/', ' ', $content);
-    $content = strip_tags($content);
+    $content = wp_strip_all_tags($content);
     $content = preprocess_text($content);
     return trim($content);
 }
