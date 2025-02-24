@@ -87,8 +87,7 @@ function zara_get_data_by_post( $post_id ) {
     $table_name = zara_get_table_name();
 
     // Prepare the query to avoid SQL injection
-    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE post_id = %d LIMIT 1", $post_id );
-    $result = $wpdb->get_row( $sql );
+    $result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE post_id = %d LIMIT 1", $post_id ) );
 
     return $result;
 }
