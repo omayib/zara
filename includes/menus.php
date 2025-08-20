@@ -26,7 +26,7 @@ function zara_menu_render_view() {
     $selected_completion_option = isset( $options['completion_options'] ) ? $options['completion_options'] : '';
     $selected_vector_option = isset( $options['vector_options'] ) ? $options['vector_options'] : '';
     $conversations = zara_conversation_admin_page(); // Get data
-    
+
     ?>
     <div class="wrap">
         <h1>Zara Settings</h1>
@@ -141,22 +141,29 @@ function zara_menu_render_view() {
             <?php submit_button(); ?>
         </form>
         <?php
-        echo '<h1>Zara Conversations</h1>';
-        echo '<table border="1">';
-        echo '<tr><th>Session ID</th><th>question</th><th>retrieved_docs</th><th>generated_answer</th><th>Timestamp</th></tr>';
+            echo '<h1>Zara Conversations</h1>';
+            echo '<div class="zara-table-container">';
+            echo '<table class="zara-table widefat fixed striped">';
+            echo '<thead><tr>
+                    <th class="fit-content">Session ID</th>
+                    <th>question</th>
+                    <th>retrieved_docs</th>
+                    <th>generated_answer</th>
+                    <th class="fit-content">Timestamp</th>
+                </tr></thead><tbody>';
 
-        foreach ( $conversations as $row ) {
+            foreach ( $conversations as $row ) {
+                echo '<tr>';
+                echo '<td class="wrap-text">' . esc_html( $row->session_id ) . '</td>';
+                echo '<td class="wrap-text">' . esc_html( $row->question ) . '</td>';
+                echo '<td class="wrap-text">' . esc_html( $row->retrieved_docs ) . '</td>';
+                echo '<td class="wrap-text">' . esc_html( $row->generated_answer ) . '</td>';
+                echo '<td class="fit-content">' . esc_html( $row->timestamp ) . '</td>';
+                echo '</tr>';
+            }
 
-            echo '<tr>';
-            echo '<td>' . esc_html( $row->session_id ) . '</td>';
-            echo '<td>' . esc_html( $row->question ) . '</td>';
-            echo '<td>' . esc_html( $row->retrieved_docs ) . '</td>';
-            echo '<td>' . esc_html( $row->generated_answer ) . '</td>';
-            echo '<td>' . esc_html( $row->timestamp ) . '</td>';
-            echo '</tr>';
-        }
-
-        echo '</table>';
+            echo '</tbody></table>';
+            echo '</div>';
         ?>
 
     </div>
