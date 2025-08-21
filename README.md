@@ -2,6 +2,10 @@
 
 Hey there, content connoisseurs and tech aficionados! Welcome to **Zara** – the groundbreaking WordPress plugin that transforms the old, mundane menu navigation into an interactive quest for the perfect content. Forget aimlessly clicking around; with Zara, you simply answer a few fun questions, and voilà – your content is served on a silver platter!
 
+<div align="center">
+  <img src="documentation/images/bannerhizara.png" alt="screenshot" width="400"/>
+</div>
+
 ---
 
 ## Description
@@ -22,7 +26,8 @@ Ready to supercharge your WordPress site with the power of AI? Follow these simp
 
 1. **Download & Upload:**
    - Download the latest version of Zara.
-   - Log in to your WordPress dashboard, navigate to **Plugins > Add New > Upload Plugin**, and select the Zara zip file.
+   - Log in to your WordPress dashboard, navigate to **Plugins > Add New > Upload Plugin**, and select the Zara zip file or
+   - Visit [hizara.chat](https://hizara.chat) go to Download menu.
 
 2. **Activate the Plugin:**
    - Once uploaded, click **Activate** to unleash Zara’s capabilities on your site.
