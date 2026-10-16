@@ -7,7 +7,10 @@
   <meta name="description" content="Zara Chat is a WordPress plugin that answers visitors' questions from your own site content, using OpenAI and Pinecone.">
   <meta property="og:title" content="Zara Chat — AI search for WordPress">
   <meta property="og:description" content="Let visitors ask questions and get answers drawn from your own posts and pages.">
-  <meta property="og:image" content="assets/bannerhizara.png">
+  <meta property="og:image" content="https://omayib.github.io/zara/assets/bannerhizara.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,7 +49,7 @@
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
-    img { max-width: 100%; display: block; }
+    img { max-width: 100%; height: auto; display: block; }
     code {
       font: .9em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       background: var(--code-bg);
@@ -144,10 +147,17 @@
     .step p { margin: 0; color: var(--muted); font-size: 14px; }
 
     /* Screenshots */
-    .gallery { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
-    .gallery figure { margin: 0; }
+    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .gallery figure { margin: 0; display: flex; flex-direction: column; }
     .gallery figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
-    .gallery .stack { display: grid; gap: 20px; }
+    .panel {
+      flex: 1; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+      background: radial-gradient(120% 90% at 50% 100%, #ffe2b3 0%, #fff6e8 55%, #ffffff 100%);
+      display: flex; align-items: center; justify-content: center; padding: 28px;
+    }
+    .panel img { max-height: 100%; width: auto; }
+    .panel.bottom { align-items: flex-end; padding-bottom: 0; }
     @media (max-width: 860px) { .gallery { grid-template-columns: 1fr; } }
 
     /* Install */
@@ -224,7 +234,7 @@
         </div>
         <p class="meta">Free &amp; open source · GPLv2 · WordPress 5.7+</p>
       </div>
-      <div class="shot"><img src="assets/bannerhizara.png" alt="Zara chat embedded in a landing page, answering a visitor's question" width="856" height="572"></div>
+      <div class="shot"><img src="assets/bannerhizara.png" alt="Zara chat embedded in a landing page, answering a visitor's question" width="852" height="570"></div>
     </div>
   </section>
 
@@ -293,15 +303,13 @@
       </div>
       <div class="gallery">
         <figure>
-          <div class="shot"><img src="assets/hizarainfloating.png" alt="Zara chat running on a phone" width="938" height="625" loading="lazy"></div>
+          <div class="panel bottom"><img src="assets/hizarainfloating.png" alt="Zara chat running on a phone" width="704" height="639" loading="lazy"></div>
           <figcaption>Works on mobile, embedded in a page or as a floating chat.</figcaption>
         </figure>
-        <div class="stack">
-          <figure>
-            <div class="shot"><img src="assets/hizarasyncselectionsync.png" alt="Admin list showing which posts are synced to the index" width="413" height="275" loading="lazy"></div>
-            <figcaption>Choose what to index and see each item's last sync time.</figcaption>
-          </figure>
-        </div>
+        <figure>
+          <div class="panel"><img src="assets/hizarasyncselectionsync.png" alt="Admin list showing which posts are synced to the index" width="409" height="288" loading="lazy"></div>
+          <figcaption>Choose what to index and see each item's last sync time.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
