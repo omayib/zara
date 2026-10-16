@@ -27,7 +27,7 @@ Ready to supercharge your WordPress site with the power of AI? Follow these simp
 1. **Download & Upload:**
    - Download the latest version of Zara.
    - Log in to your WordPress dashboard, navigate to **Plugins > Add New > Upload Plugin**, and select the Zara zip file or
-   - Visit [hizara.chat](https://hizara.chat) go to Download menu.
+   - Visit [omayib.github.io/zara](https://omayib.github.io/zara) and click **Download plugin**.
 
 2. **Activate the Plugin:**
    - Once uploaded, click **Activate** to unleash Zara’s capabilities on your site.

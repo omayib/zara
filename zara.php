@@ -8,13 +8,13 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://hizara.chat
+ * @link              https://omayib.github.io/zara
  * @since             1.0.0
  * @package           Zara
  *
  * @wordpress-plugin
  * Plugin Name:       Zara Chat
- * Plugin URI:        https://hizara.chat
+ * Plugin URI:        https://omayib.github.io/zara
  * Description:       Zara is an AI-powered WordPress plugin that makes content discovery interactive and fun. It uses engaging questions to help users quickly find the content they need.
  * Version:           1.2.0
  * Author:            omayib

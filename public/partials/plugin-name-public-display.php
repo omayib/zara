@@ -5,7 +5,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       https://hizara.chat/
+ * @link       https://omayib.github.io/zara/
  * @since      1.0.0
  *
  * @package    Plugin_Name
